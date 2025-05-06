@@ -4,9 +4,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.smartkrishi.MainActivity;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.fragments.HomeFragment;
 import com.example.smartkrishi.fragments.NewsFragments;
@@ -18,7 +22,7 @@ public class MenuHandler {
         this.activity = activity;
     }
 
-    public boolean onNavigationItemSelected(MenuItem item, TextView header) {
+    public boolean onNavigationItemSelected(MenuItem item, TextView header, MainActivity context) {
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
             replaceFragment(new HomeFragment());
@@ -29,9 +33,10 @@ public class MenuHandler {
             replaceFragment(new NewsFragments());
             header.setText("News");
             Toast.makeText(activity, "News clicked", Toast.LENGTH_SHORT).show();
-        } else if (itemId == R.id.nav_pest_detect) {
-            // Replace with PestDetectFragment (create if needed)
-            Toast.makeText(activity, "Pest Detect clicked", Toast.LENGTH_SHORT).show();
+        } else if (itemId == R.id.nav_detect) {
+            Intent intent = new Intent(context, CameraActivity.class);
+            context.startActivity(intent);
+            return true;
         } else if (itemId == R.id.nav_market) {
             header.setText("Market Place");
             // Replace with MarketFragment (create if needed)

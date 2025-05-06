@@ -33,10 +33,7 @@ android {
 
 dependencies {
 
-    implementation(libs.volley)
-    implementation(libs.okhttp)
-
-
+    implementation (libs.onnxruntime.android)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
