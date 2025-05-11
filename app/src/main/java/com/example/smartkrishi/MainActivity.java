@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends FragmentActivity {
     private MenuHandler menuHandler;
     private TextView header;
-    MainActivity context;
+
 
 
     @Override
@@ -28,7 +28,7 @@ public class MainActivity extends FragmentActivity {
         // Setup navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         menuHandler = new MenuHandler(this);
-        bottomNav.setOnItemSelectedListener(item -> menuHandler.onNavigationItemSelected(item,header,context));
+        bottomNav.setOnItemSelectedListener(item -> menuHandler.onNavigationItemSelected(item,header));
 
         // Load initial fragment
         getSupportFragmentManager().beginTransaction()

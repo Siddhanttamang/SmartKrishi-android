@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.smartkrishi"
-        minSdk = 21
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -32,10 +32,11 @@ android {
 }
 
 dependencies {
+    implementation(libs.onnxruntime)
 
-    implementation (libs.onnxruntime.android)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.firebase.sessions)
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

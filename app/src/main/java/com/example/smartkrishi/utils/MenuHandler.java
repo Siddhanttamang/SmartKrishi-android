@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smartkrishi.MainActivity;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.fragments.HomeFragment;
 import com.example.smartkrishi.fragments.NewsFragments;
@@ -22,7 +21,7 @@ public class MenuHandler {
         this.activity = activity;
     }
 
-    public boolean onNavigationItemSelected(MenuItem item, TextView header, MainActivity context) {
+    public boolean onNavigationItemSelected(MenuItem item, TextView header) {
         int itemId = item.getItemId();
         if (itemId == R.id.nav_home) {
             replaceFragment(new HomeFragment());
@@ -34,8 +33,8 @@ public class MenuHandler {
             header.setText("News");
             Toast.makeText(activity, "News clicked", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_detect) {
-            Intent intent = new Intent(context, CameraActivity.class);
-            context.startActivity(intent);
+            Intent intent = new Intent(activity, CameraActivity.class);
+            activity.startActivity(intent);
             return true;
         } else if (itemId == R.id.nav_market) {
             header.setText("Market Place");
