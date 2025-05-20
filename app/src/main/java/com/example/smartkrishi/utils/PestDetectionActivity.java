@@ -1,5 +1,6 @@
 package com.example.smartkrishi.utils;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.ml.ONNXClassifier;
 
-public class PestDetectionActivity extends AppCompatActivity {
+public class PestDetectionActivity extends Activity{
 
     private ImageView imagePreview;
     private TextView resultText;

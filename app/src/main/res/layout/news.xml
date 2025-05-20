@@ -14,11 +14,13 @@
         android:textStyle="bold"
         android:textColor="#008000"/>
 
-    <!-- Add RecyclerView for news list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/newsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"
         android:scrollbars="vertical"/>
+
 
 </LinearLayout>

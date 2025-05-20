@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:background="@android:color/white"
+    android:layout_margin="4dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+    <TextView
+        android:id="@+id/newsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="News Title"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="#212121"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/newsPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Price: Rs. 999"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:layout_marginTop="8dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+</LinearLayout>
