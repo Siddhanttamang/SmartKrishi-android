@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.adapters.NewsAdapter;
 import com.example.smartkrishi.models.News;
-import com.example.smartkrishi.utils.NewsService;
+import com.example.smartkrishi.Services.NewsService;
 
 import java.util.List;
 

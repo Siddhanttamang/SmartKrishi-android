@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartkrishi.models.UserRegister;
-import com.example.smartkrishi.utils.RegisterService;
+import com.example.smartkrishi.Services.RegisterService;
 
 public class AuthActivity extends Activity {
     private TextView user_error;
