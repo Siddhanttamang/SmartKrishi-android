@@ -31,17 +31,19 @@ public class HomeFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         String userJson = prefs.getString("user_data", null);
 
-        if (userJson != null) {
-            Gson gson = new Gson();
-            UserLoginResponse.UserData user = gson.fromJson(userJson, UserLoginResponse.UserData.class);
-            String name = user.getName(); // Use safely now
-            userName.setText("Welcome, "+name);
-        }
+
 
 
         // Initialize WeatherService
         weatherService = new WeatherService(requireContext());
-        weatherService.fetchWeather("Kathmandu", weatherInfo, weatherLocation);
+        if (userJson != null) {
+            Gson gson = new Gson();
+            UserLoginResponse.UserData user = gson.fromJson(userJson, UserLoginResponse.UserData.class);
+            String name = user.getName(); // Use safely now
+            String address= user.getAddress();
+            userName.setText("Welcome, "+name);
+            weatherService.fetchWeather(address, weatherInfo, weatherLocation);
+        }
 
         return view;
     }

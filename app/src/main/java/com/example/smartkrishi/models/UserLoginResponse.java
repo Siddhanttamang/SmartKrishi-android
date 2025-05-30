@@ -16,10 +16,13 @@ public class UserLoginResponse {
         private int id;
         private String name;
         private String email;
+        private String address;
+        private String phone;
 
-
-        public UserData(int id, String email, String name) {
+        public UserData(int id, String phone, String address, String email, String name) {
             this.id = id;
+            this.phone = phone;
+            this.address = address;
             this.email = email;
             this.name = name;
         }
@@ -32,6 +35,22 @@ public class UserLoginResponse {
             this.id = id;
         }
 
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
         public String getEmail() {
             return email;
         }
@@ -40,12 +59,12 @@ public class UserLoginResponse {
             this.email = email;
         }
 
-        public String getName() {
-            return name;
+        public String getPhone() {
+            return phone;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setPhone(String phone) {
+            this.phone = phone;
         }
     }
 }
