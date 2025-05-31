@@ -15,10 +15,38 @@
         android:contentDescription="Captured image" />
 
     <TextView
-        android:id="@+id/result_text"
+        android:id="@+id/crop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prediction result will appear here"
+
         android:layout_marginTop="20dp"
         android:textSize="18sp" />
+    <TextView
+        android:id="@+id/disease"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/recommendation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp" />
+     <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         >
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnok"
+        android:text="OK" android:layout_marginRight="10dp"/>
+         <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSave"
+        android:text="Save"/>
+         </LinearLayout>
 </LinearLayout>

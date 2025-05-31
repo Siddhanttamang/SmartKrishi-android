@@ -1,0 +1,112 @@
+[
+  {
+    "crop": "Bean",
+    "disease": "angular leaf spot",
+    "recommendation": "Plant certified disease-free seeds, practice crop rotation, improve air circulation, and use copper-based organic sprays during early symptoms."
+  },
+  {
+    "crop": "Bean",
+    "disease": "bean rust",
+    "recommendation": "Remove and destroy infected leaves early, plant resistant varieties, and apply sulfur or neem-based fungicides weekly during humid conditions."
+  },
+  {
+    "crop": "Cauliflower",
+    "disease": "Alternaria Leaf Spot",
+    "recommendation": "Avoid overhead irrigation, maintain field sanitation, and spray organic fungicides like potassium bicarbonate or copper-based solutions at early stages."
+  },
+  {
+    "crop": "Cauliflower",
+    "disease": "Black Rot",
+    "recommendation": "Use hot water-treated seeds, manage irrigation to avoid waterlogging, and use a 3-year crop rotation with non-cruciferous crops."
+  },
+  {
+    "crop": "Cauliflower",
+    "disease": "Cabbage aphid colony",
+    "recommendation": "Introduce natural predators like ladybugs, use neem oil every 7 days, and avoid excessive nitrogen that attracts aphids."
+  },
+  {
+    "crop": "Cauliflower",
+    "disease": "Downy Mildew",
+    "recommendation": "Ensure proper air circulation and drainage, irrigate in the morning, and apply copper hydroxide or potassium bicarbonate."
+  },
+  {
+    "crop": "Cauliflower",
+    "disease": "ring spot",
+    "recommendation": "Remove infected leaves, rotate with non-host crops, and apply biofungicides such as Bacillus subtilis-based products."
+  },
+  {
+    "crop": "Paddy",
+    "disease": "Bacterial leaf blight",
+    "recommendation": "Avoid dense planting, minimize nitrogen use, use resistant varieties, and treat seeds with streptocycline only under expert advice."
+  },
+  {
+    "crop": "Paddy",
+    "disease": "Brown spot",
+    "recommendation": "Ensure balanced fertilization, especially potassium and phosphorus, use resistant varieties, and apply tricyclazole or neem cake."
+  },
+  {
+    "crop": "Paddy",
+    "disease": "Leaf smut",
+    "recommendation": "Maintain field sanitation, avoid over-fertilization with nitrogen, and treat seeds with hot water or organic fungicides."
+  },
+  {
+    "crop": "Potato",
+    "disease": "Early blight",
+    "recommendation": "Use certified disease-free tubers, mulch with straw or plastic, and apply biofungicides such as Trichoderma harzianum."
+  },
+  {
+    "crop": "Potato",
+    "disease": "Late blight",
+    "recommendation": "Plant in well-drained soil, avoid night irrigation, and apply systemic fungicides only during outbreaks under professional supervision."
+  },
+  {
+    "crop": "Potato",
+    "disease": "healthy",
+    "recommendation": "Practice crop rotation, apply compost, and regularly monitor for pests and diseases to act early if symptoms appear."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Bacterial spot",
+    "recommendation": "Avoid overhead irrigation, disinfect tools regularly, and apply copper-based organic sprays at early signs."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Early blight",
+    "recommendation": "Apply mulching, prune lower leaves, rotate crops, and spray Trichoderma-based biofungicides every 7\u201310 days."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Late blight",
+    "recommendation": "Use resistant varieties, ensure proper spacing for airflow, and apply systemic fungicides only when high humidity persists for several days."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Leaf Mold",
+    "recommendation": "Ensure greenhouse ventilation or open field spacing, avoid nighttime watering, and spray baking soda solution or copper fungicide early."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Septoria leaf spot",
+    "recommendation": "Remove infected leaves, apply neem oil or copper fungicide, and irrigate at the base rather than overhead."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Spider mites Two-spotted spider mite",
+    "recommendation": "Spray water to dislodge mites, increase humidity, introduce predatory mites, and use insecticidal soap or neem oil."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Target Spot",
+    "recommendation": "Improve airflow by pruning lower leaves, avoid overhead watering, and apply preventive biofungicides like Bacillus subtilis."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "Tomato mosaic virus",
+    "recommendation": "Remove and burn infected plants, disinfect tools with bleach solution, and avoid tobacco products in the field."
+  },
+  {
+    "crop": "Tomato",
+    "disease": "healthy",
+    "recommendation": "Apply compost tea, rotate crops every season, and support plants with stakes or cages to prevent disease."
+  }
+]
