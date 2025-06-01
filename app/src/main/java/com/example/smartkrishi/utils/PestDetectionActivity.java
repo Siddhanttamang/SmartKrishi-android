@@ -1,6 +1,8 @@
 package com.example.smartkrishi.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,8 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartkrishi.R;
+import com.example.smartkrishi.api.ReportAPi;
+import com.example.smartkrishi.api.RetrofitClient;
 import com.example.smartkrishi.ml.ONNXClassifier;
 import com.example.smartkrishi.models.Recommendation;
+import com.example.smartkrishi.models.UserLoginResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -20,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PestDetectionActivity extends Activity {
 
@@ -73,6 +82,48 @@ public class PestDetectionActivity extends Activity {
                     cropText.setText("Crop: " + r.crop);
                     diseaseText.setText("Disease: " + r.disease);
                     recommendationText.setText("Recommendation:\n" + r.recommendation);
+                    if(r.crop!=null&&r.disease!=null&&r.recommendation!=null){
+                        btnSave.setOnClickListener(e -> {
+
+                            SharedPreferences preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
+                            String token = preferences.getString("auth_token", null);
+
+
+
+                            if (token != null) {
+
+                                Recommendation data = new Recommendation(
+                                        r.getRecommendation(),
+                                        r.getDisease(),
+                                        r.getCrop()
+                                );
+
+                                ReportAPi reportApi = RetrofitClient.getClient().create(ReportAPi.class);
+                                Call<Void> call = reportApi.createReport("Bearer " + token, data);
+
+
+                                call.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        if (response.isSuccessful()) {
+                                            Toast.makeText(PestDetectionActivity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(PestDetectionActivity.this, "Failed to save: " + response.code(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        Toast.makeText(PestDetectionActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    }
                 });
 
             } catch (Exception e) {
@@ -92,29 +143,42 @@ public class PestDetectionActivity extends Activity {
             Type listType = new TypeToken<List<Recommendation>>() {}.getType();
             List<Recommendation> list = gson.fromJson(json, listType);
 
+            // Remove probability info if present
+            if (predictedLabel.contains(" (")) {
+                predictedLabel = predictedLabel.substring(0, predictedLabel.indexOf(" ("));
+            }
+
+            // Parse class
             String[] parts = predictedLabel.split("_", 2);
-            String crop = parts[0];
-            String disease = parts[1].replace("_", " ");
+            String crop = parts[0].trim().toLowerCase();
+            String disease = parts[1].trim().replace("_", " ").toLowerCase();
+
             Log.d("DEBUG", "Looking for match: " + crop + " - " + disease);
 
             for (Recommendation r : list) {
-                Log.d("DEBUG", "Checking: " + r.crop + " - " + r.disease);
-                if (r.crop.trim().equalsIgnoreCase(crop.trim()) && r.disease.trim().equalsIgnoreCase(disease.trim())) {
+                String rCrop = r.crop.trim().toLowerCase();
+                String rDisease = r.disease.trim().toLowerCase();
+
+                Log.d("DEBUG", "Checking: " + rCrop + " - " + rDisease);
+
+                if (rCrop.equals(crop) && rDisease.equals(disease)) {
                     return r;
                 }
-
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Fallback if no match found
         Recommendation fallback = new Recommendation();
-        fallback.crop = predictedLabel.split("_")[0];
-        fallback.disease = predictedLabel.split("_", 2)[1].replace("_", " ");
+        String[] parts = predictedLabel.split("_", 2);
+        fallback.crop = parts[0];
+        fallback.disease = parts[1].replace("_", " ");
         fallback.recommendation = "No recommendation available.";
         return fallback;
     }
+
 
     private String loadJSONFromAsset(String fileName) {
         String json = null;
