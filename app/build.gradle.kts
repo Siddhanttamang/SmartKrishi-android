@@ -40,6 +40,8 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.lottie)
+
 
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

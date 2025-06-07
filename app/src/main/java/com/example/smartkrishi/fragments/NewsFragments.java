@@ -23,6 +23,7 @@ public class NewsFragments extends Fragment {
 
     private RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
+    private View newsLoading; // Can be ProgressBar or LottieAnimationView
 
     @Nullable
     @Override
@@ -32,7 +33,13 @@ public class NewsFragments extends Fragment {
         View view = inflater.inflate(R.layout.news, container, false);
 
         newsRecyclerView = view.findViewById(R.id.newsRecyclerView);
-        newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));  // 🔧 Fix here
+        newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        newsLoading = view.findViewById(R.id.newsLoading); // 👈 initialize the loader view
+
+        // Show loading
+        newsLoading.setVisibility(View.VISIBLE);
+        newsRecyclerView.setVisibility(View.GONE);
 
         NewsService newsService = new NewsService();
         newsService.fetchNews(new NewsService.NewsCallback() {
@@ -40,15 +47,21 @@ public class NewsFragments extends Fragment {
             public void onSuccess(List<News> newsList) {
                 newsAdapter = new NewsAdapter(newsList);
                 newsRecyclerView.setAdapter(newsAdapter);
+
+                // Hide loading
+                newsLoading.setVisibility(View.GONE);
+                newsRecyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                // 🔧 Fix here: Use getContext() instead of NewsService.this
                 Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+
+                // Hide loading (in case of failure too)
+                newsLoading.setVisibility(View.GONE);
             }
         });
 
-        return view;  // 🔧 Don't forget to return the view
+        return view;
     }
 }
