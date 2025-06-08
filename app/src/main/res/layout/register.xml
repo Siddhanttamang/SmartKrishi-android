@@ -43,7 +43,7 @@
             android:textColor="#D32F2F"
             android:textSize="14sp"
             android:layout_marginBottom="12dp"
-            android:visibility="gone"
+            android:visibility="visible"
             />
 
         <!-- Username -->

@@ -1,6 +1,7 @@
 package com.example.smartkrishi.utils;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -23,27 +25,45 @@ import java.util.Date;
 import java.util.Locale;
 
 public class CameraActivity extends AppCompatActivity {
-    private static final int REQUEST_CAMERA_PERMISSION = 100;
+    private static final int REQUEST_PERMISSIONS = 100;
     private Uri photoUri;
     private File photoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkPermissionsAndShowDialog();
+    }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+    private void checkPermissionsAndShowDialog() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CAMERA_PERMISSION);
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSIONS);
         } else {
-            openCamera();
+            showChoiceDialog();
         }
+    }
+
+    private void showChoiceDialog() {
+        String[] options = {"Camera", "Gallery"};
+        new AlertDialog.Builder(this)
+                .setTitle("Select Image From")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        openCamera();
+                    } else {
+                        openGallery();
+                    }
+                })
+                .setCancelable(true)
+                .show();
     }
 
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         try {
             photoFile = createImageFile();
             photoUri = FileProvider.getUriForFile(this,
@@ -56,15 +76,34 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+    private void openGallery() {
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+        galleryLauncher.launch(pickIntent);
+    }
+
     private final ActivityResultLauncher<Intent> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    Intent intent = new Intent(this, PestDetectionActivity.class);
-                    intent.putExtra("image_path", photoFile.getAbsolutePath());
-                    startActivity(intent);
+                    startPestDetection(photoFile.getAbsolutePath());
                 }
-                finish(); // Close camera activity
+                finish();
             });
+
+    private final ActivityResultLauncher<Intent> galleryLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri selectedImageUri = result.getData().getData();
+                    startPestDetection(selectedImageUri.toString());  // Sending URI as string
+                }
+                finish();
+            });
+
+    private void startPestDetection(String imagePath) {
+        Intent intent = new Intent(this, PestDetectionActivity.class);
+        intent.putExtra("image_path", imagePath);
+        startActivity(intent);
+    }
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
@@ -78,11 +117,13 @@ public class CameraActivity extends AppCompatActivity {
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CAMERA_PERMISSION &&
-                grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            openCamera();
+        if (requestCode == REQUEST_PERMISSIONS &&
+                grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+            showChoiceDialog();
         } else {
-            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Permissions denied", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
