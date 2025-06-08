@@ -8,6 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.smartkrishi.utils.MenuHandler;
 import com.example.smartkrishi.fragments.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 
 public class MainActivity extends FragmentActivity {
     private MenuHandler menuHandler;
@@ -23,11 +26,20 @@ public class MainActivity extends FragmentActivity {
         // Initialize exit button
         ImageButton exitButton = findViewById(R.id.exit_button);
         header = findViewById(R.id.nav_header);
-        exitButton.setOnClickListener(v -> finish());
+//        exitButton.setOnClickListener(v -> finish());
+        exitButton.setOnClickListener(v -> {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Exit")
+                    .setMessage("Do you want to exit?")
+                    .setPositiveButton("Yes", (dialog, which) -> finish())
+                    .setNegativeButton("No", null)
+                    .show();
+        });
+
 
         // Setup navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        menuHandler = new MenuHandler(this);
+        menuHandler = new MenuHandler(MainActivity.this);
         bottomNav.setOnItemSelectedListener(item -> menuHandler.onNavigationItemSelected(item,header));
 
         // Load initial fragment

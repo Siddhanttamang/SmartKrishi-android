@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+//    kotlin("kapt")
 }
 
 android {
@@ -40,6 +41,10 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.lottie)
+    implementation(libs.glide)
+//    kapt(libs.compiler)
+
 
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

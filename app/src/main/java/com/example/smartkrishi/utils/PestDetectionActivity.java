@@ -52,6 +52,7 @@ public class PestDetectionActivity extends Activity {
         btnSave = findViewById(R.id.btnSave);
         btnOk = findViewById(R.id.btnok);
 
+        btnOk.setOnClickListener(e->{finish();});
         // Load image from file path
         String imagePath = getIntent().getStringExtra("image_path");
         if (imagePath != null) {
