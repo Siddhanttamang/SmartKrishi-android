@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -21,8 +22,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-//import com.example.smartkrishi.PestDetectionActivity;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -37,8 +36,8 @@ public class ImagePickerFragment extends Fragment {
 
     private final ActivityResultLauncher<String[]> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-                boolean allGranted = result.containsValue(false);
-                if (!allGranted) {
+                boolean allGranted = !result.containsValue(false); // all true = no false
+                if (allGranted) {
                     showChoiceDialog();
                 } else {
                     Toast.makeText(getContext(), "Permissions denied", Toast.LENGTH_SHORT).show();
@@ -58,7 +57,10 @@ public class ImagePickerFragment extends Fragment {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     Uri selectedImageUri = result.getData().getData();
-                    startPestDetection(selectedImageUri.toString());
+                    if (selectedImageUri != null) {
+                        // Pass URI string to PestDetectionActivity
+                        startPestDetection(selectedImageUri.toString());
+                    }
                 }
                 closeFragment();
             });
@@ -79,13 +81,39 @@ public class ImagePickerFragment extends Fragment {
     }
 
     private void checkPermissionsAndStart() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        // Compose required permissions depending on Android version
+        String[] requiredPermissions;
 
-            permissionLauncher.launch(new String[]{
+        if (Build.VERSION.SDK_INT >= 34) {
+            // Android 14+ selected photos access
+            requiredPermissions = new String[] {
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
+            };
+        } else if (Build.VERSION.SDK_INT == 33) {
+            // Android 13
+            requiredPermissions = new String[] {
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_MEDIA_IMAGES
+            };
+        } else {
+            // Android 12 and below
+            requiredPermissions = new String[] {
                     Manifest.permission.CAMERA,
                     Manifest.permission.READ_EXTERNAL_STORAGE
-            });
+            };
+        }
+
+        boolean permissionsGranted = true;
+        for (String permission : requiredPermissions) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsGranted = false;
+                break;
+            }
+        }
+
+        if (!permissionsGranted) {
+            permissionLauncher.launch(requiredPermissions);
         } else {
             showChoiceDialog();
         }
@@ -128,9 +156,11 @@ public class ImagePickerFragment extends Fragment {
         galleryLauncher.launch(pickIntent);
     }
 
-    private void startPestDetection(String imagePath) {
+    private void startPestDetection(String imagePathOrUriString) {
         Intent intent = new Intent(requireContext(), PestDetectionActivity.class);
-        intent.putExtra("image_path", imagePath);
+        // Pass image as URI string or file path string
+        // Your PestDetectionActivity must handle both cases (Uri or path)
+        intent.putExtra("image_path", imagePathOrUriString);
         startActivity(intent);
     }
 
