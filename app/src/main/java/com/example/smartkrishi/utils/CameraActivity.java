@@ -85,7 +85,8 @@ public class CameraActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> cameraLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    startPestDetection(photoFile.getAbsolutePath());
+                    startPestDetection(photoUri.toString()); // Send URI string
+
                 }
                 finish();
             });

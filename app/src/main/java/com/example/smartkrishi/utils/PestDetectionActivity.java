@@ -1,12 +1,11 @@
 package com.example.smartkrishi.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.example.smartkrishi.api.ReportAPi;
 import com.example.smartkrishi.api.RetrofitClient;
 import com.example.smartkrishi.ml.ONNXClassifier;
 import com.example.smartkrishi.models.Recommendation;
-import com.example.smartkrishi.models.UserLoginResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,6 +37,8 @@ public class PestDetectionActivity extends Activity {
     private Button btnSave;
     private Button btnOk;
 
+    private Bitmap currentBitmap = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,24 +52,66 @@ public class PestDetectionActivity extends Activity {
         btnSave = findViewById(R.id.btnSave);
         btnOk = findViewById(R.id.btnok);
 
-        btnOk.setOnClickListener(e->{finish();});
-        // Load image from file path
-        String imagePath = getIntent().getStringExtra("image_path");
-        if (imagePath != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            imagePreview.setImageBitmap(bitmap);
-            classify(bitmap);
-        }
+        btnOk.setOnClickListener(e -> finish());
 
-        // Load image from byte array (camera intent)
-        byte[] byteArray = getIntent().getByteArrayExtra("image");
-        if (byteArray != null) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            imagePreview.setImageBitmap(bitmap);
-            classify(bitmap);
-        } else if (imagePath == null) {
-            recommendationText.setText("No image received");
+        try {
+            boolean imageHandled = false;
+
+            // Handle image path or URI string
+            String imagePathOrUriString = getIntent().getStringExtra("image_path");
+            if (imagePathOrUriString != null) {
+                Bitmap bitmap = loadBitmapFromPathOrUri(imagePathOrUriString);
+                if (bitmap != null) {
+                    imagePreview.setImageBitmap(bitmap);
+                    currentBitmap = bitmap;
+                    classify(bitmap);
+                    imageHandled = true;
+                }
+            }
+
+            // Handle byte array image (optional fallback)
+            if (!imageHandled) {
+                byte[] byteArray = getIntent().getByteArrayExtra("image");
+                if (byteArray != null) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                    imagePreview.setImageBitmap(bitmap);
+                    currentBitmap = bitmap;
+                    classify(bitmap);
+                    imageHandled = true;
+                }
+            }
+
+            if (!imageHandled) {
+                recommendationText.setText("No image received");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private Bitmap loadBitmapFromPathOrUri(String pathOrUri) {
+        try {
+            Uri uri = Uri.parse(pathOrUri);
+
+            if ("file".equals(uri.getScheme()) || uri.getScheme() == null) {
+                // This is a file path
+                return BitmapFactory.decodeFile(pathOrUri);
+            } else {
+                // This is a content Uri (gallery or Android 14+ selection)
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                if (inputStream != null) {
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    inputStream.close();
+                    return bitmap;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error loading image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return null;
     }
 
     private void classify(Bitmap bitmap) {
@@ -83,47 +125,9 @@ public class PestDetectionActivity extends Activity {
                     cropText.setText("Crop: " + r.crop);
                     diseaseText.setText("Disease: " + r.disease);
                     recommendationText.setText("Recommendation:\n" + r.recommendation);
-                    if(r.crop!=null&&r.disease!=null&&r.recommendation!=null){
-                        btnSave.setOnClickListener(e -> {
 
-                            SharedPreferences preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
-                            String token = preferences.getString("auth_token", null);
-
-
-
-                            if (token != null) {
-
-                                Recommendation data = new Recommendation(
-                                        r.getRecommendation(),
-                                        r.getDisease(),
-                                        r.getCrop()
-                                );
-
-                                ReportAPi reportApi = RetrofitClient.getClient().create(ReportAPi.class);
-                                Call<Void> call = reportApi.createReport("Bearer " + token, data);
-
-
-                                call.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                        if (response.isSuccessful()) {
-                                            Toast.makeText(PestDetectionActivity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(PestDetectionActivity.this, "Failed to save: " + response.code(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-                                        Toast.makeText(PestDetectionActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
+                    if (r.crop != null && r.disease != null && r.recommendation != null) {
+                        btnSave.setOnClickListener(e -> saveReport(r));
                     }
                 });
 
@@ -137,6 +141,35 @@ public class PestDetectionActivity extends Activity {
         }).start();
     }
 
+    private void saveReport(Recommendation r) {
+        SharedPreferences preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String token = preferences.getString("auth_token", null);
+
+        if (token != null) {
+            ReportAPi reportApi = RetrofitClient.getClient().create(ReportAPi.class);
+            Call<Void> call = reportApi.createReport("Bearer " + token, r);
+
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(PestDetectionActivity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PestDetectionActivity.this, "Failed to save: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(PestDetectionActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private Recommendation getRecommendation(String predictedLabel) {
         try {
             String json = loadJSONFromAsset("class_recommendations.json");
@@ -144,25 +177,17 @@ public class PestDetectionActivity extends Activity {
             Type listType = new TypeToken<List<Recommendation>>() {}.getType();
             List<Recommendation> list = gson.fromJson(json, listType);
 
-            // Remove probability info if present
             if (predictedLabel.contains(" (")) {
                 predictedLabel = predictedLabel.substring(0, predictedLabel.indexOf(" ("));
             }
 
-            // Parse class
             String[] parts = predictedLabel.split("_", 2);
             String crop = parts[0].trim().toLowerCase();
             String disease = parts[1].trim().replace("_", " ").toLowerCase();
 
-            Log.d("DEBUG", "Looking for match: " + crop + " - " + disease);
-
             for (Recommendation r : list) {
-                String rCrop = r.crop.trim().toLowerCase();
-                String rDisease = r.disease.trim().toLowerCase();
-
-                Log.d("DEBUG", "Checking: " + rCrop + " - " + rDisease);
-
-                if (rCrop.equals(crop) && rDisease.equals(disease)) {
+                if (r.crop.trim().toLowerCase().equals(crop) &&
+                        r.disease.trim().toLowerCase().equals(disease)) {
                     return r;
                 }
             }
@@ -171,7 +196,7 @@ public class PestDetectionActivity extends Activity {
             e.printStackTrace();
         }
 
-        // Fallback if no match found
+        // Fallback if no match
         Recommendation fallback = new Recommendation();
         String[] parts = predictedLabel.split("_", 2);
         fallback.crop = parts[0];
@@ -180,19 +205,17 @@ public class PestDetectionActivity extends Activity {
         return fallback;
     }
 
-
     private String loadJSONFromAsset(String fileName) {
-        String json = null;
         try {
             InputStream is = getAssets().open(fileName);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            return new String(buffer, "UTF-8");
         } catch (IOException ex) {
             ex.printStackTrace();
+            return null;
         }
-        return json;
     }
 }
