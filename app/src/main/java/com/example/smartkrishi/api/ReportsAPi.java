@@ -6,7 +6,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-public interface ReportAPi {
+public interface ReportsAPi {
     @POST("api/report")
     Call<Void> createReport(@Header("Authorization") String token, @Body Recommendation recommendation
     );

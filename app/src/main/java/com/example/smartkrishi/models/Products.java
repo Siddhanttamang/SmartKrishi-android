@@ -1,36 +1,76 @@
 package com.example.smartkrishi.models;
 public class Products {
     private String name;
-    private String description;
-    private String imageUrl;
+    private int quantity;
     private int price;
-    private String unit;
-    private String category;
+    private String imageUrl;
     private String seller;
+    private String address;
     private String contact;
-    private String location;
 
-    public Products(String name, String description, String imageUrl, int price,
-                   String unit, String category, String seller, String contact, String location) {
-        this.name = name;
-        this.description = description;
+    public Products(String address, String contact, String seller, String imageUrl, int price, int quantity, String name) {
+        this.address = address;
+        this.contact = contact;
+        this.seller = seller;
         this.imageUrl = imageUrl;
         this.price = price;
-        this.unit = unit;
-        this.category = category;
-        this.seller = seller;
-        this.contact = contact;
-        this.location = location;
+        this.quantity = quantity;
+        this.name = name;
     }
 
-    // Getters here (required for RecyclerView binding)
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public String getImageUrl() { return imageUrl; }
-    public int getPrice() { return price; }
-    public String getUnit() { return unit; }
-    public String getCategory() { return category; }
-    public String getSeller() { return seller; }
-    public String getContact() { return contact; }
-    public String getLocation() { return location; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

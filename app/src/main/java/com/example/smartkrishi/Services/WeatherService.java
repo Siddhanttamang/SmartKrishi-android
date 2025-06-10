@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.example.smartkrishi.api.RetrofitClient;
 import com.example.smartkrishi.api.WeatherApi;
-import com.example.smartkrishi.models.WeatherResponse;
+import com.example.smartkrishi.Responses.WeatherResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

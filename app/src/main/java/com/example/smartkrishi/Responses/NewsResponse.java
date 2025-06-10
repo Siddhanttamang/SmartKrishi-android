@@ -1,4 +1,6 @@
-package com.example.smartkrishi.models;
+package com.example.smartkrishi.Responses;
+
+import com.example.smartkrishi.models.News;
 
 import java.util.List;
 

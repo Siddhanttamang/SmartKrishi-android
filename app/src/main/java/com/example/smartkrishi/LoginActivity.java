@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.smartkrishi.Services.LoginService;
 import com.example.smartkrishi.Services.UserService;
-import com.example.smartkrishi.models.UserLoginResponse;
+import com.example.smartkrishi.Responses.UserLoginResponse;
 import com.google.gson.Gson;
 
 public class LoginActivity extends Activity {
