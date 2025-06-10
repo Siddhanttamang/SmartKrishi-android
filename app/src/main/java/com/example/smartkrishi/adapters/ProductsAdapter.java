@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.bumptech.glide.Glide;
 import com.example.smartkrishi.R;
@@ -20,10 +22,10 @@ import com.example.smartkrishi.models.Products;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductViewHolder> {
     private final List<Products> productList;
 
-    public ProductAdapter(List<Products> productList) {
+    public ProductsAdapter(List<Products> productList) {
         this.productList = productList;
     }
 
@@ -31,19 +33,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_product, parent, false);
+                .inflate(R.layout.item_products, parent, false);
         return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Products p = productList.get(position);
-
         holder.productName.setText(p.getName());
-        holder.productPrice.setText("Rs. " + p.getPrice() + "/" + p.getUnit());
+        holder.productPrice.setText("Rs. " + p.getPrice() + "/ KG" );
         holder.productSeller.setText(p.getSeller());
-        holder.productLocation.setText(p.getLocation());
-
+        holder.productLocation.setText(p.getAddress());
+//        holder.productImage.setImageResource(R.drawable.ic_app_logo);
+//       holder.productImage.setImageResource(p.getImageUrl());
         Glide.with(holder.itemView.getContext())
                 .load(p.getImageUrl())
                 .placeholder(R.drawable.ic_launcher_foreground)

@@ -37,12 +37,12 @@ dependencies {
 
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.firebase.sessions)
     testImplementation(libs.junit)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.lottie)
     implementation(libs.glide)
+
 //    kapt(libs.compiler)
 
 

@@ -2,10 +2,11 @@ package com.example.smartkrishi.Services;
 
 import android.util.Log;
 
-import com.example.smartkrishi.api.NewsApi;
+import com.example.smartkrishi.Responses.ProductsResponse;
+import com.example.smartkrishi.api.ProductsApi;
 import com.example.smartkrishi.api.RetrofitClient;
-import com.example.smartkrishi.models.News;
 import com.example.smartkrishi.Responses.NewsResponse;
+import com.example.smartkrishi.models.Products;
 
 import java.util.List;
 
@@ -13,23 +14,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewsService {
-    private static final String TAG = "NewsService";
-    private final NewsApi newsApi;
+public class ProductsService {
+    private static final String TAG = "ProductApi";
+    private final ProductsApi productsApi;
 
-    public interface NewsCallback {
-        void onSuccess(List<News> newsList);
+    public interface ProductsCallback {
+        void onSuccess(List<Products> ProductsList);
         void onFailure(String errorMessage);
     }
 
-    public NewsService() {
-        newsApi = RetrofitClient.getClient().create(NewsApi.class);
+    public ProductsService() {
+        productsApi = RetrofitClient.getClient().create(ProductsApi.class);
     }
 
-    public void fetchNews(NewsCallback callback) {
-        newsApi.getAllNews().enqueue(new Callback<NewsResponse>() {
+    public void fetchProducts(ProductsService.ProductsCallback callback) {
+        productsApi.getAllProducts().enqueue(new Callback<ProductsResponse>() {
             @Override
-            public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
+            public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getData());
                 } else {
@@ -39,10 +40,11 @@ public class NewsService {
             }
 
             @Override
-            public void onFailure(Call<NewsResponse> call, Throwable t) {
+            public void onFailure(Call<ProductsResponse> call, Throwable t) {
                 callback.onFailure("Error: " + t.getMessage());
                 Log.e(TAG, "Retrofit error: ", t);
             }
         });
     }
 }
+

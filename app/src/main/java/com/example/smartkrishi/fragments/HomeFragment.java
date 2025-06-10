@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.example.smartkrishi.R;
-import com.example.smartkrishi.models.UserLoginResponse;
+import com.example.smartkrishi.Responses.UserLoginResponse;
 import com.example.smartkrishi.Services.WeatherService;
 import com.google.gson.Gson;
 

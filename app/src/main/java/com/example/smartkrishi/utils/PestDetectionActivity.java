@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartkrishi.R;
-import com.example.smartkrishi.api.ReportAPi;
+import com.example.smartkrishi.api.ReportsAPi;
 import com.example.smartkrishi.api.RetrofitClient;
 import com.example.smartkrishi.ml.ONNXClassifier;
 import com.example.smartkrishi.models.Recommendation;
@@ -146,8 +146,8 @@ public class PestDetectionActivity extends Activity {
         String token = preferences.getString("auth_token", null);
 
         if (token != null) {
-            ReportAPi reportApi = RetrofitClient.getClient().create(ReportAPi.class);
-            Call<Void> call = reportApi.createReport("Bearer " + token, r);
+            ReportsAPi reportsApi = RetrofitClient.getClient().create(ReportsAPi.class);
+            Call<Void> call = reportsApi.createReport("Bearer " + token, r);
 
             call.enqueue(new Callback<Void>() {
                 @Override

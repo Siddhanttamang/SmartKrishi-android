@@ -1,6 +1,6 @@
 package com.example.smartkrishi.api;
 
-import com.example.smartkrishi.models.NewsResponse;
+import com.example.smartkrishi.Responses.NewsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -2,7 +2,7 @@ package com.example.smartkrishi.Services;
 
 import com.example.smartkrishi.api.AuthApi;
 import com.example.smartkrishi.api.RetrofitClient;
-import com.example.smartkrishi.models.UserLoginResponse;
+import com.example.smartkrishi.Responses.UserLoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package com.example.smartkrishi.models;
+package com.example.smartkrishi.Responses;
 
 public class UserLoginResponse {
     private String access_token;
