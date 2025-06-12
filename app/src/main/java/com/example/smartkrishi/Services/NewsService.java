@@ -31,6 +31,7 @@ public class NewsService {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+
                     callback.onSuccess(response.body().getData());
                 } else {
                     callback.onFailure("Failed: Invalid response");
