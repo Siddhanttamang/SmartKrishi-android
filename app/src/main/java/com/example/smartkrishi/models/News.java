@@ -5,6 +5,11 @@ public class News {
 
     private String price;
 
+    public News(String name, String price) {
+        this.price = price;
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
