@@ -2,10 +2,8 @@ package com.example.smartkrishi.Services;
 
 import android.util.Log;
 
-import com.example.smartkrishi.Responses.ProductsResponse;
 import com.example.smartkrishi.api.ProductsApi;
 import com.example.smartkrishi.api.RetrofitClient;
-import com.example.smartkrishi.Responses.NewsResponse;
 import com.example.smartkrishi.models.Products;
 
 import java.util.List;
@@ -19,7 +17,7 @@ public class ProductsService {
     private final ProductsApi productsApi;
 
     public interface ProductsCallback {
-        void onSuccess(List<Products> ProductsList);
+        void onSuccess(List<Products> productsList);
         void onFailure(String errorMessage);
     }
 
@@ -27,24 +25,23 @@ public class ProductsService {
         productsApi = RetrofitClient.getClient().create(ProductsApi.class);
     }
 
-    public void fetchProducts(ProductsService.ProductsCallback callback) {
-        productsApi.getAllProducts().enqueue(new Callback<ProductsResponse>() {
+    public void fetchProducts(ProductsCallback callback) {
+        productsApi.getAllProducts().enqueue(new Callback<List<Products>>() {
             @Override
-            public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
+            public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getData());
+                    callback.onSuccess(response.body());
                 } else {
                     callback.onFailure("Failed: Invalid response");
-                    Log.e(TAG, "Error: " + response.errorBody());
+                    Log.e(TAG, "Response error: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<ProductsResponse> call, Throwable t) {
+            public void onFailure(Call<List<Products>> call, Throwable t) {
                 callback.onFailure("Error: " + t.getMessage());
                 Log.e(TAG, "Retrofit error: ", t);
             }
         });
     }
 }
-

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,57 +12,61 @@
         android:padding="12dp"
         android:background="#D8F3DC">
 
+        <!-- Product Image -->
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"/>
+            android:src="@drawable/ic_launcher_background" />
 
+        <!-- Product Info -->
         <LinearLayout
-            android:layout_width="276dp"
-            android:layout_height="107dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="12dp">
+            android:paddingStart="12dp"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:text="Product Name" />
 
             <TextView
                 android:id="@+id/productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:text="Price" />
 
             <TextView
                 android:id="@+id/productSeller"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:text="Seller" />
 
             <TextView
                 android:id="@+id/productLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:text="Location" />
 
             <Button
                 android:id="@+id/contactSellerButton"
-                android:layout_width="157dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="#4CAF50"
-                android:padding="6dp"
                 android:text="Contact Seller"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
-
-
         </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -42,8 +42,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         Products p = productList.get(position);
         holder.productName.setText(p.getName());
         holder.productPrice.setText("Rs. " + p.getPrice() + "/ KG" );
-        holder.productSeller.setText(p.getSeller());
-        holder.productLocation.setText(p.getAddress());
+        holder.productSeller.setText(p.getUser_name());
+        holder.productLocation.setText(p.getUser_address());
 //        holder.productImage.setImageResource(R.drawable.ic_app_logo);
 //       holder.productImage.setImageResource(p.getImageUrl());
         Glide.with(holder.itemView.getContext())
@@ -52,7 +52,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
                 .into(holder.productImage);
 
         holder.contactButton.setOnClickListener(v -> {
-            String phone = p.getContact();
+            String phone = p.getUser_contact();
             Context context = v.getContext();
 
             new AlertDialog.Builder(context)
