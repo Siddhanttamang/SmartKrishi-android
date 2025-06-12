@@ -17,11 +17,11 @@ public class UserLoginResponse {
         private String name;
         private String email;
         private String address;
-        private String phone;
+        private String contact;
 
-        public UserData(int id, String phone, String address, String email, String name) {
+        public UserData(int id, String contact, String address, String email, String name) {
             this.id = id;
-            this.phone = phone;
+            this.contact = contact;
             this.address = address;
             this.email = email;
             this.name = name;
@@ -59,12 +59,12 @@ public class UserLoginResponse {
             this.email = email;
         }
 
-        public String getPhone() {
-            return phone;
+        public String getContact() {
+            return contact;
         }
 
-        public void setPhone(String phone) {
-            this.phone = phone;
+        public void setContact(String contact) {
+            this.contact = contact;
         }
     }
 }

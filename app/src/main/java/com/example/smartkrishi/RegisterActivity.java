@@ -1,5 +1,6 @@
 package com.example.smartkrishi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -53,7 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(String message) {
                             Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
-                            clearForm();
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                            finish();
+
                         }
 
                         @Override
@@ -100,11 +103,5 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    private void clearForm() {
-        userName.setText("");
-        userEmail.setText("");
-        userAddress.setText("");
-        userContact.setText("");
-        userPassword.setText("");
-    }
+
 }

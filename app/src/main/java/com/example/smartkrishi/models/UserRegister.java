@@ -5,11 +5,11 @@ public class UserRegister {
     private String email;
     private String address;
     private String password;
-    private String phone;
+    private String contact;
 
-    public UserRegister(String name, String phone, String password, String address, String email) {
+    public UserRegister(String name, String contact, String password, String address, String email) {
         this.name = name;
-        this.phone = phone;
+        this.contact = contact;
         this.password = password;
         this.address = address;
         this.email = email;
@@ -47,11 +47,11 @@ public class UserRegister {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getContact() {
+        return contact;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setContact(String contact) {
+        this.contact= contact;
     }
 }
