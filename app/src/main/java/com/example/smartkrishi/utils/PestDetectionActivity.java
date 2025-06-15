@@ -35,7 +35,7 @@ public class PestDetectionActivity extends Activity {
     private TextView diseaseText;
     private TextView recommendationText;
     private Button btnSave;
-    private Button btnOk;
+    private Button btnCancel;
 
     private Bitmap currentBitmap = null;
 
@@ -50,9 +50,9 @@ public class PestDetectionActivity extends Activity {
         diseaseText = findViewById(R.id.disease);
         recommendationText = findViewById(R.id.recommendation);
         btnSave = findViewById(R.id.btnSave);
-        btnOk = findViewById(R.id.btnok);
+        btnCancel = findViewById(R.id.btnCancel);
 
-        btnOk.setOnClickListener(e -> finish());
+        btnCancel.setOnClickListener(e -> finish());
 
         try {
             boolean imageHandled = false;

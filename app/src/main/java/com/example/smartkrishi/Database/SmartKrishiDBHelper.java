@@ -26,12 +26,23 @@ public class SmartKrishiDBHelper extends SQLiteOpenHelper {
                 "temperature TEXT, " +
                 "description TEXT, " +
                 "date TEXT)");
-    }
+        //Table for PestReport
+        db.execSQL("CREATE TABLE report (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "crop_name TEXT, " +
+                "disease TEXT, " +
+                "recommendation TEXT, " +
+                "user_id INTEGER,"+
+                "created_at TEXT)");
 
+
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS news");
         db.execSQL("DROP TABLE IF EXISTS weather");
+        db.execSQL("DROP TABLE IF EXISTS report");
         onCreate(db);
     }
+
 }

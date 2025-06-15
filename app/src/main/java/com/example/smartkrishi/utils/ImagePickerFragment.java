@@ -81,24 +81,17 @@ public class ImagePickerFragment extends Fragment {
     }
 
     private void checkPermissionsAndStart() {
-        // Compose required permissions depending on Android version
         String[] requiredPermissions;
 
-        if (Build.VERSION.SDK_INT >= 34) {
-            // Android 14+ selected photos access
-            requiredPermissions = new String[] {
+        if (Build.VERSION.SDK_INT >= 33) {
+            // Android 13+ (API 33+)
+            requiredPermissions = new String[]{
                     Manifest.permission.CAMERA,
-                    Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
-            };
-        } else if (Build.VERSION.SDK_INT == 33) {
-            // Android 13
-            requiredPermissions = new String[] {
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.READ_MEDIA_IMAGES
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO // <--- add this too
             };
         } else {
-            // Android 12 and below
-            requiredPermissions = new String[] {
+            requiredPermissions = new String[]{
                     Manifest.permission.CAMERA,
                     Manifest.permission.READ_EXTERNAL_STORAGE
             };
@@ -118,6 +111,7 @@ public class ImagePickerFragment extends Fragment {
             showChoiceDialog();
         }
     }
+
 
     private void showChoiceDialog() {
         String[] options = {"Camera", "Gallery"};
@@ -151,8 +145,10 @@ public class ImagePickerFragment extends Fragment {
     }
 
     private void openGallery() {
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent pickIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
         pickIntent.setType("image/*");
+
         galleryLauncher.launch(pickIntent);
     }
 
