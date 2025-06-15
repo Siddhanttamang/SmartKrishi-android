@@ -34,12 +34,13 @@ public class MenuHandler {
             header.setText("News");
 //            Toast.makeText(activity, "News clicked", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_detect) {
-            activity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(android.R.id.content, new ImagePickerFragment())
-                    .addToBackStack(null)
-                    .commit();
-            return true;
+            replaceFragment(new ImagePickerFragment());
+//            activity.getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .add(android.R.id.content, new ImagePickerFragment())
+//                    .addToBackStack(null)
+//                    .commit();
+//            return true;
         } else if (itemId == R.id.nav_market) {
             header.setText("Market Place");
             replaceFragment(new MarketFragment());

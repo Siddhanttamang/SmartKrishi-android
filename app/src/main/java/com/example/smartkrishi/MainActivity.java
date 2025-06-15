@@ -1,5 +1,6 @@
 package com.example.smartkrishi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,14 +25,17 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize exit button
-        ImageButton exitButton = findViewById(R.id.exit_button);
+        ImageButton logoutButton = findViewById(R.id.logout_button);
         header = findViewById(R.id.nav_header);
 //        exitButton.setOnClickListener(v -> finish());
-        exitButton.setOnClickListener(v -> {
+        logoutButton.setOnClickListener(v -> {
             new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("Exit")
-                    .setMessage("Do you want to exit?")
-                    .setPositiveButton("Yes", (dialog, which) -> finish())
+                    .setTitle("Logout")
+                    .setMessage("Do you want to Logout?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    })
                     .setNegativeButton("No", null)
                     .show();
         });

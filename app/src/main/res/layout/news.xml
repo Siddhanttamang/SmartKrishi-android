@@ -6,14 +6,20 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@android:color/white">
-
-    <TextView
+    <SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Latest Agricultural News"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#008000"/>
+        android:queryHint="Search news..."
+        android:iconifiedByDefault="false"
+        android:background="@drawable/searchview_background"
+        android:padding="2dp"
+        android:textColor="@color/black"
+        android:textColorHint="#212121"
+        android:layout_marginBottom="20dp"
+    />
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/newsRecyclerView"
