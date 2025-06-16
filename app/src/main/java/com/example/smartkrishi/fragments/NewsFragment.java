@@ -21,7 +21,7 @@ import com.example.smartkrishi.Services.NewsService;
 import java.util.Collections;
 import java.util.List;
 
-public class NewsFragments extends Fragment {
+public class NewsFragment extends Fragment {
 
     private RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
@@ -77,7 +77,6 @@ public class NewsFragments extends Fragment {
 
             @Override
             public void onFailure(String errorMessage) {
-                Toast.makeText(getContext(), "Failed to fetch news: " + errorMessage, Toast.LENGTH_SHORT).show();
                 newsLoading.setVisibility(View.GONE);
                 // Don't hide recycler if cache was shown
                 if (cachedNews.isEmpty()) {

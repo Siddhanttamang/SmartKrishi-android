@@ -3,15 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Latest Agricultural News"
-        android:textSize="20sp"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="10dp"
+        android:text="Buy vegetables"
+        android:textSize="18dp"
+        android:paddingLeft="20dp"
         android:textStyle="bold"
         android:textColor="#008000"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Be a seller"
+        android:id="@+id/btnSell"
+        android:textSize="14dp"
+        android:textColor="@color/white"
+        android:background="#008000"/>
 
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"

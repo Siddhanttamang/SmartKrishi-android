@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginVertical="10dp"
+    >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+    <TextView
+        android:id="@+id/cropName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crop Name"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="#212121"
+        android:maxLines="2"
+        android:ellipsize="end" />
+    <TextView
+        android:id="@+id/disease"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Disease"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="#212121"
+        android:maxLines="2"
+        android:ellipsize="end" />
+    <TextView
+        android:id="@+id/recommendation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recommendation"
+        android:textStyle="italic"
+        android:textSize="15dp"
+        android:textColor="#212121"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Created at"
+        android:textSize="12sp"
+        android:textColor="#757575"
+        android:layout_marginTop="8dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD" />
+
+</LinearLayout>

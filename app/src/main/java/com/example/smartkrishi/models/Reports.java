@@ -1,7 +1,7 @@
 package com.example.smartkrishi.models;
 
 public class Reports {
-    private int id;
+
     private String cropName;
     private String disease;
     private String recommendation;
@@ -17,20 +17,14 @@ public class Reports {
         this.createdAt = createdAt;
     }
 
-    // Constructor with ID (for fetching from DB)
-    public Reports(int id, String cropName, String disease, String recommendation, int userId, String createdAt) {
-        this.id = id;
-        this.cropName = cropName;
-        this.disease = disease;
-        this.recommendation = recommendation;
-        this.userId = userId;
-        this.createdAt = createdAt;
+
+
+    public String getDisease() {
+        return disease;
     }
 
-    // Getters and Setters
-
-    public int getId() {
-        return id;
+    public void setDisease(String disease) {
+        this.disease = disease;
     }
 
     public String getCropName() {
@@ -39,14 +33,6 @@ public class Reports {
 
     public void setCropName(String cropName) {
         this.cropName = cropName;
-    }
-
-    public String getDisease() {
-        return disease;
-    }
-
-    public void setDisease(String disease) {
-        this.disease = disease;
     }
 
     public String getRecommendation() {

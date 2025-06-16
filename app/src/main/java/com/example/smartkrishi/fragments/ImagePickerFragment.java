@@ -1,4 +1,4 @@
-package com.example.smartkrishi.utils;
+package com.example.smartkrishi.fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -21,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+
+import com.example.smartkrishi.utils.PestDetectionActivity;
 
 import java.io.File;
 import java.io.IOException;
