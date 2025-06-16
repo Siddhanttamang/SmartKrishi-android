@@ -21,7 +21,6 @@ public class ReportDAO {
     public void insertReport(Reports report) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-
         values.put("crop_name", report.getCropName());
         values.put("disease", report.getDisease());
         values.put("recommendation", report.getRecommendation());
@@ -36,12 +35,11 @@ public class ReportDAO {
     public List<Reports> getAllReports() {
         List<Reports> reportList = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query("report", null, null, null, null, null, "id DESC");
+        Cursor cursor = db.query("report", null, null, null, null, null, "created_at DESC");
 
         if (cursor.moveToFirst()) {
             do {
                 Reports report = new Reports(
-                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
                         cursor.getString(cursor.getColumnIndexOrThrow("crop_name")),
                         cursor.getString(cursor.getColumnIndexOrThrow("disease")),
                         cursor.getString(cursor.getColumnIndexOrThrow("recommendation")),
