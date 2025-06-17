@@ -2,6 +2,7 @@ package com.example.smartkrishi.api;
 
 import com.example.smartkrishi.Responses.ReportResponse;
 import com.example.smartkrishi.models.Recommendation;
+import com.example.smartkrishi.models.Reports;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface ReportsAPi {
     Call<Void> createReport(@Header("Authorization") String token, @Body Recommendation recommendation
     );
     @GET("/api/report")
-    Call<ReportResponse> getReports(@Header("Authorization") String token);
+    Call<List<Reports>> getReports(@Header("Authorization") String token);
 
 }

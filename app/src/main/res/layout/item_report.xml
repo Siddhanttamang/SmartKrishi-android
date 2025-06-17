@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:text="Created at"
         android:textSize="12sp"
-        android:textColor="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="8dp" />
     <View
         android:layout_width="match_parent"

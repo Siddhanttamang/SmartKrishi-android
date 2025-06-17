@@ -45,7 +45,7 @@ public class ReportFragment extends Fragment {
         ReportDAO reportDAO = new ReportDAO(requireContext());
 
         // Load cached news first
-        List<Reports> cachedReport = reportDAO.getAllReports();
+        List<Reports> cachedReport = reportDAO.getUnsyncedReports();
 
         if (!cachedReport.isEmpty()) {
 
@@ -70,25 +70,27 @@ public class ReportFragment extends Fragment {
         reportService.getAllReports(token,new ReportService.ReportCallback() {
             @Override
             public void onSuccess(List<Reports> reportsList) {
+                if (isAdded() && getContext() != null) {
+                    reportAdapter = new ReportAdapter(reportsList);
+                    reportRecyclerView.setAdapter(reportAdapter);
 
-                reportAdapter = new ReportAdapter(reportsList);
-                reportRecyclerView.setAdapter(reportAdapter);
+                    // Save to SQLite
+                    for (Reports reports : reportsList) {
+                        reportDAO.insertReport(reports,true);
+                    }
 
-                // Save to SQLite
-                for (Reports reports : reportsList) {
-                    reportDAO.insertReport(reports);
+                    reportRecyclerView.setVisibility(View.VISIBLE);
                 }
-
-
-                reportRecyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(getContext(), "Failed to get Report: " + errorMessage, Toast.LENGTH_SHORT).show();
+            public void onFailure(String errorMessage) {
+                if (isAdded() && getContext() != null) {
+                    Toast.makeText(getContext(), "Failed to get Report: " + errorMessage, Toast.LENGTH_SHORT).show();
 
-                if (cachedReport.isEmpty()) {
-                    reportRecyclerView.setVisibility(View.GONE);
+                    if (cachedReport.isEmpty()) {
+                        reportRecyclerView.setVisibility(View.GONE);
+                    }
                 }
             }
 

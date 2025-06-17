@@ -20,20 +20,20 @@ public class ReportService {
     }
 
     public void getAllReports(String token, ReportCallback callback) {
-        reportsApi.getReports("Bearer " + token).enqueue(new Callback<ReportResponse>() {
+        reportsApi.getReports("Bearer " + token).enqueue(new Callback<List<Reports>>() {
             @Override
-            public void onResponse(Call<ReportResponse> call, Response<ReportResponse> response) {
+            public void onResponse(Call<List<Reports>> call, Response<List<Reports>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getData());
+                    callback.onSuccess(response.body());
                 } else {
-                    callback.onError("Failed to fetch reports");
+                    callback.onFailure("Failed to fetch reports");
                 }
             }
 
             @Override
 
-            public void onFailure(Call<ReportResponse> call, Throwable t) {
-                callback.onError("Network error: " + t.getMessage());
+            public void onFailure(Call<List<Reports>> call, Throwable t) {
+                callback.onFailure("Network error: " + t.getMessage());
             }
 
         });
@@ -41,7 +41,7 @@ public class ReportService {
 
     public interface ReportCallback {
         void onSuccess(List<Reports> reportsList);
-        void onError(String message);
+        void onFailure(String message);
 
 
     }

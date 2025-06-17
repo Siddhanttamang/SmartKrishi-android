@@ -2,37 +2,43 @@ package com.example.smartkrishi.models;
 
 public class Reports {
 
-    private String cropName;
+    private String crop_name;
     private String disease;
     private String recommendation;
-    private int userId;
-    private String createdAt;
+    private int user_id;
+    private String created_at;
+    public Reports(){}
 
-    // Constructor without ID (for creating new reports before insert)
-    public Reports(String cropName, String disease, String recommendation, int userId, String createdAt) {
-        this.cropName = cropName;
-        this.disease = disease;
+    public Reports(String crop_name, int user_id, String created_at, String recommendation, String disease) {
+        this.crop_name = crop_name;
+        this.user_id = user_id;
+        this.created_at = created_at;
         this.recommendation = recommendation;
-        this.userId = userId;
-        this.createdAt = createdAt;
-    }
-
-
-
-    public String getDisease() {
-        return disease;
-    }
-
-    public void setDisease(String disease) {
         this.disease = disease;
     }
 
-    public String getCropName() {
-        return cropName;
+    public String getCrop_name() {
+        return crop_name;
     }
 
-    public void setCropName(String cropName) {
-        this.cropName = cropName;
+    public void setCrop_name(String crop_name) {
+        this.crop_name = crop_name;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
     public String getRecommendation() {
@@ -43,19 +49,11 @@ public class Reports {
         this.recommendation = recommendation;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getDisease() {
+        return disease;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setDisease(String disease) {
+        this.disease = disease;
     }
 }

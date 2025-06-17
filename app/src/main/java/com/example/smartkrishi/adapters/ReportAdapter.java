@@ -36,18 +36,18 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     @NonNull
     @Override
-    public ReportAdapter.ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
-        return new ReportAdapter.ReportViewHolder(view);
+        return new ReportViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ReportAdapter.ReportViewHolder holder, int position) {
        Reports reports = reportsList.get(position);
-       holder.cropName.setText(reports.getCropName());
+       holder.cropName.setText(reports.getCrop_name());
        holder.disease.setText(reports.getDisease());
        holder.recommendation.setText(reports.getRecommendation());
-       holder.createdAt.setText((reports.getCreatedAt()));
+       holder.createdAt.setText((reports.getCreated_at()));
     }
 
     @Override

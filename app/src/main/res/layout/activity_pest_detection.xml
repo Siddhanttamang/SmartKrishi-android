@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center"
-    android:layout_weight="2"
     android:background="@color/white">
 
     <ImageView
@@ -14,52 +12,64 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        android:layout_gravity="center"
         android:contentDescription="Captured image" />
 
     <TextView
         android:id="@+id/crop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:textColor="@color/black"
         android:layout_marginTop="20dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:gravity="start" />
+
     <TextView
         android:id="@+id/disease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="18sp" />
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:gravity="start" />
+
     <TextView
         android:id="@+id/recommendation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="18sp" />
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:gravity="start" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Do you want to save?"
         android:layout_marginVertical="20dp"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        />
-     <LinearLayout
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:orientation="horizontal"
-         android:layout_weight="0"
-         >
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:gravity="center">
+
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnCancel"
-        android:text="Cancel"
-            android:layout_marginRight="15dp"/>
-         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnSave"
-        android:text="Save"/>
-         </LinearLayout>
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+    </LinearLayout>
 </LinearLayout>
