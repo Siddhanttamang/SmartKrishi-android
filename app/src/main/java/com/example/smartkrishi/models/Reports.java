@@ -7,7 +7,6 @@ public class Reports {
     private String recommendation;
     private int user_id;
     private String created_at;
-    public Reports(){}
 
     public Reports(String crop_name, int user_id, String created_at, String recommendation, String disease) {
         this.crop_name = crop_name;

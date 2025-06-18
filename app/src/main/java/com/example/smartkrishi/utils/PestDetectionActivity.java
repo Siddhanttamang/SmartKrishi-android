@@ -11,27 +11,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.smartkrishi.utils.NetworkUtils;
 
-
-import com.example.smartkrishi.Database.ReportDAO;
 import com.example.smartkrishi.MainActivity;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.api.ReportsAPi;
 import com.example.smartkrishi.api.RetrofitClient;
 import com.example.smartkrishi.ml.ONNXClassifier;
 import com.example.smartkrishi.models.Recommendation;
-import com.example.smartkrishi.models.Reports;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -157,46 +150,33 @@ public class PestDetectionActivity extends Activity {
     }
 
     private void saveReport(Recommendation r) {
-        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
-        String token = prefs.getString("auth_token", null);
-        ReportDAO dao = new ReportDAO(this);
-        String createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-        Reports dbReport = new Reports();
-        dbReport.setCrop_name(r.crop);
-        dbReport.setDisease(r.disease);
-        dbReport.setRecommendation(r.recommendation);
-        dbReport.setUser_id(prefs.getInt("user_id", 0));
-        dbReport.setCreated_at(createdAt);
+        SharedPreferences preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String token = preferences.getString("auth_token", null);
 
+        if (token != null) {
+            ReportsAPi reportsApi = RetrofitClient.getClient().create(ReportsAPi.class);
+            Call<Void> call = reportsApi.createReport("Bearer " + token, r);
 
-        if (!NetworkUtils.isNetworkAvailable(this)) {
-            dao.insertReport(dbReport, false);
-            Toast.makeText(this, "Saved offline", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Call<Void> call = RetrofitClient.getClient()
-                .create(ReportsAPi.class)
-                .createReport("Bearer " + token, r);
-
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    dao.insertReport(dbReport, true);
-                    Toast.makeText(PestDetectionActivity.this, "Saved online", Toast.LENGTH_SHORT).show();
-                } else {
-                    dao.insertReport(dbReport, false);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(PestDetectionActivity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PestDetectionActivity.this, "Failed to save: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                dao.insertReport(dbReport, false);
-            }
-        });
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(PestDetectionActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+        }
     }
-
 
     private Recommendation getRecommendation(String predictedLabel) {
         try {

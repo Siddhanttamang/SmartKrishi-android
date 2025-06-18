@@ -25,6 +25,12 @@ public class NewsDAO {
         db.insert("news", null, values);
         db.close();
     }
+    public void clearReports() {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("news", null, null); // Delete all rows
+        db.close();
+    }
+
 
     public List<News> getAllNews() {
         List<News> newsList = new ArrayList<>();

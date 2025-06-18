@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.example.smartkrishi.Services.ReportService;
 import com.example.smartkrishi.adapters.ReportAdapter;
 import com.example.smartkrishi.models.Reports;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ReportFragment extends Fragment {
@@ -45,7 +47,8 @@ public class ReportFragment extends Fragment {
         ReportDAO reportDAO = new ReportDAO(requireContext());
 
         // Load cached news first
-        List<Reports> cachedReport = reportDAO.getUnsyncedReports();
+        List<Reports> cachedReport = reportDAO.getReports();
+        Collections.reverse(cachedReport);
 
         if (!cachedReport.isEmpty()) {
 
@@ -69,16 +72,20 @@ public class ReportFragment extends Fragment {
         ReportService reportService = new ReportService();
         reportService.getAllReports(token,new ReportService.ReportCallback() {
             @Override
+
             public void onSuccess(List<Reports> reportsList) {
                 if (isAdded() && getContext() != null) {
-                    reportAdapter = new ReportAdapter(reportsList);
-                    reportRecyclerView.setAdapter(reportAdapter);
+                    // Clear previous local data before inserting new
+                    reportDAO.clearReports();
 
-                    // Save to SQLite
-                    for (Reports reports : reportsList) {
-                        reportDAO.insertReport(reports,true);
+                    // Insert fresh reports from API
+                    for (Reports report : reportsList) {
+                        reportDAO.insertReport(report);
                     }
 
+                    // Update UI
+                    reportAdapter = new ReportAdapter(reportsList);
+                    reportRecyclerView.setAdapter(reportAdapter);
                     reportRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
@@ -86,6 +93,7 @@ public class ReportFragment extends Fragment {
             @Override
             public void onFailure(String errorMessage) {
                 if (isAdded() && getContext() != null) {
+                    Log.d("ReportFragment",errorMessage);
                     Toast.makeText(getContext(), "Failed to get Report: " + errorMessage, Toast.LENGTH_SHORT).show();
 
                     if (cachedReport.isEmpty()) {
