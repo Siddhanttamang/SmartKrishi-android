@@ -65,12 +65,14 @@ public class NewsFragment extends Fragment {
 
                 newsAdapter = new NewsAdapter(newsList);
                 newsRecyclerView.setAdapter(newsAdapter);
+                newsDAO.clearReports();
 
                 // Save to SQLite
                 for (News news : newsList) {
                     newsDAO.insertNews(news);
                 }
-
+                newsAdapter = new NewsAdapter(newsList);
+                newsRecyclerView.setAdapter(newsAdapter);
                 newsLoading.setVisibility(View.GONE);
                 newsRecyclerView.setVisibility(View.VISIBLE);
             }
