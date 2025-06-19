@@ -16,7 +16,7 @@ public interface ReportsAPi {
     @POST("api/report")
     Call<Void> createReport(@Header("Authorization") String token, @Body Recommendation recommendation
     );
-    @GET("/api/report")
+    @GET("api/report")
     Call<List<Reports>> getReports(@Header("Authorization") String token);
 
 }
