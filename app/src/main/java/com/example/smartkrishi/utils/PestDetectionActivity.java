@@ -169,7 +169,7 @@ public class PestDetectionActivity extends Activity {
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(PestDetectionActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PestDetectionActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }
             });
 

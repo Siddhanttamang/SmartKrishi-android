@@ -2,7 +2,7 @@ package com.example.smartkrishi.Services;
 
 import android.util.Log;
 
-import com.example.smartkrishi.api.ProductsApi;
+import com.example.smartkrishi.api.MarketApi;
 import com.example.smartkrishi.api.RetrofitClient;
 import com.example.smartkrishi.models.Products;
 
@@ -12,21 +12,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductsService {
+public class MarketService {
     private static final String TAG = "ProductApi";
-    private final ProductsApi productsApi;
+    private final MarketApi marketApi;
 
     public interface ProductsCallback {
         void onSuccess(List<Products> productsList);
         void onFailure(String errorMessage);
     }
 
-    public ProductsService() {
-        productsApi = RetrofitClient.getClient().create(ProductsApi.class);
+    public MarketService() {
+        marketApi = RetrofitClient.getClient().create(MarketApi.class);
     }
 
+
     public void fetchProducts(ProductsCallback callback) {
-        productsApi.getAllProducts().enqueue(new Callback<List<Products>>() {
+        marketApi.getAllProducts().enqueue(new Callback<List<Products>>() {
             @Override
             public void onResponse(Call<List<Products>> call, Response<List<Products>> response) {
                 if (response.isSuccessful() && response.body() != null) {
