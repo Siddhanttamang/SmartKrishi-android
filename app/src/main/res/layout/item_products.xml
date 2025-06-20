@@ -43,6 +43,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:text="Price" />
+            <TextView
+                android:id="@+id/productQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Quantity" />
 
             <TextView
                 android:id="@+id/productSeller"

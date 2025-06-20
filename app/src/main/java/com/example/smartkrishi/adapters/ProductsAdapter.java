@@ -42,12 +42,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         Products p = productList.get(position);
         holder.productName.setText(p.getName());
         holder.productPrice.setText("Rs. " + p.getPrice() + "/ KG" );
-        holder.productSeller.setText(p.getUser_name());
-        holder.productLocation.setText(p.getUser_address());
-//        holder.productImage.setImageResource(R.drawable.ic_app_logo);
-//       holder.productImage.setImageResource(p.getImageUrl());
+        holder.productQuantity.setText("Quantity: "+p.getQuantity()+" KG");
+        holder.productSeller.setText("Seller Name: "+p.getUser_name());
+        holder.productLocation.setText("Seller Address: "+p.getUser_address());
         Glide.with(holder.itemView.getContext())
-                .load(p.getImageUrl())
+                .load(p.getImage_url())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.productImage);
 
@@ -88,7 +87,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
-        TextView productName, productPrice, productSeller, productLocation;
+        TextView productName, productPrice, productSeller, productLocation,productQuantity;
+
         Button contactButton;
 
         public ProductViewHolder(@NonNull View itemView) {
@@ -96,6 +96,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             productImage = itemView.findViewById(R.id.productImage);
             productName = itemView.findViewById(R.id.productName);
             productPrice = itemView.findViewById(R.id.productPrice);
+            productQuantity= itemView.findViewById(R.id.productQuantity);
             productSeller = itemView.findViewById(R.id.productSeller);
             productLocation = itemView.findViewById(R.id.productLocation);
             contactButton = itemView.findViewById(R.id.contactSellerButton);
