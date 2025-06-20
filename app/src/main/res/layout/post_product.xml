@@ -1,5 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -13,6 +15,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:hint="Enter Product Name"
+            android:textColorHint="@color/darker_gray"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:paddingTop="12dp"
@@ -22,6 +25,7 @@
         <EditText
             android:id="@+id/priceInput"
             android:hint="Price (NPR)"
+            android:textColorHint="@color/darker_gray"
             android:textColor="@color/black"
             android:inputType="number"
             android:layout_width="match_parent"
@@ -35,6 +39,7 @@
             android:id="@+id/quantityInput"
             android:hint="Quantity (kg, liters, etc.)"
             android:inputType="number"
+            android:textColorHint="@color/darker_gray"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
