@@ -3,19 +3,19 @@ public class Products {
     private String name;
     private int quantity;
     private int price;
-    private String imageUrl;
+    private String image_url;
     private String user_name;
     private String user_address;
     private String user_contact;
 
 
-    public Products(String name, String user_contact, String user_address, String user_name, int price, String imageUrl, int quantity) {
+    public Products(String name, String user_contact, String user_address, String user_name, int price, String image_url, int quantity) {
         this.name = name;
         this.user_contact = user_contact;
         this.user_address = user_address;
         this.user_name = user_name;
         this.price = price;
-        this.imageUrl = imageUrl;
+        this.image_url = image_url;
         this.quantity = quantity;
     }
 
@@ -27,12 +27,12 @@ public class Products {
         this.name = name;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public int getQuantity() {
