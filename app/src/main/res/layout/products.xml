@@ -29,7 +29,8 @@
         android:id="@+id/btnSell"
         android:textSize="14dp"
         android:textColor="@color/white"
-        android:background="#008000"/>
+        android:background="#008000"
+        />
 
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView

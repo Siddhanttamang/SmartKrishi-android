@@ -21,11 +21,16 @@ import com.example.smartkrishi.models.Recommendation;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -153,30 +158,55 @@ public class PestDetectionActivity extends Activity {
         SharedPreferences preferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
         String token = preferences.getString("auth_token", null);
 
-        if (token != null) {
-            ReportsAPi reportsApi = RetrofitClient.getClient().create(ReportsAPi.class);
-            Call<Void> call = reportsApi.createReport("Bearer " + token, r);
+        if (token != null && currentBitmap != null) {
+            try {
+                // Save the bitmap to a file in cache
+                File file = new File(getCacheDir(), "report_image.jpg");
+                FileOutputStream fos = new FileOutputStream(file);
+                currentBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+                fos.close();
 
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(PestDetectionActivity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(PestDetectionActivity.this, "Failed to save: " + response.code(), Toast.LENGTH_SHORT).show();
+                // Wrap text fields
+                RequestBody cropBody = RequestBody.create(MediaType.parse("text/plain"), r.crop);
+                RequestBody diseaseBody = RequestBody.create(MediaType.parse("text/plain"), r.disease);
+                RequestBody recommendationBody = RequestBody.create(MediaType.parse("text/plain"), r.recommendation);
+
+                // Wrap the file into Multipart
+                RequestBody imageRequestBody = RequestBody.create(MediaType.parse("image/*"), file);
+                MultipartBody.Part imagePart = MultipartBody.Part.createFormData("image", file.getName(), imageRequestBody);
+
+                // Call API
+                ReportsAPi reportsApi = RetrofitClient.getClient().create(ReportsAPi.class);
+                Call<Void> call = reportsApi.createReport("Bearer " + token, cropBody, diseaseBody, recommendationBody, imagePart);
+
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(PestDetectionActivity.this, "Report saved successfully", Toast.LENGTH_SHORT).show();
+
+                            finish();
+
+                        } else {
+                            Toast.makeText(PestDetectionActivity.this, "Failed to save: " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(PestDetectionActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(PestDetectionActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Image save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         } else {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User not logged in or no image available", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private Recommendation getRecommendation(String predictedLabel) {
         try {

@@ -3,9 +3,11 @@ package com.example.smartkrishi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
@@ -18,7 +20,7 @@ public class LoginActivity extends Activity {
 
     private EditText emailInput, passwordInput;
     private Button loginBtn;
-    private Button newAccountBtn;
+    private TextView newAccountBtn;
     private TextView loginError;
 
     private LoginService loginService;
@@ -41,6 +43,7 @@ public class LoginActivity extends Activity {
             startActivity(intent);
 
         });
+
 
         loginBtn.setOnClickListener(e -> {
             String email = emailInput.getText().toString().trim();

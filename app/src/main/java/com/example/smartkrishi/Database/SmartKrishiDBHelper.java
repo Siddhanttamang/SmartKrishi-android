@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SmartKrishiDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "smartkrishi.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     public SmartKrishiDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,6 +33,7 @@ public class SmartKrishiDBHelper extends SQLiteOpenHelper {
                 "disease TEXT, " +
                 "recommendation TEXT, " +
                 "user_id INTEGER, " +
+                "image_url TEXT,"+
                 "created_at TEXT)" );
 
 
