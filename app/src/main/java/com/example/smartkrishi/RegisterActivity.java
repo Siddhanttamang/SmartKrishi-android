@@ -1,11 +1,13 @@
 package com.example.smartkrishi;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,11 +15,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartkrishi.Services.RegisterService;
 import com.example.smartkrishi.models.UserRegister;
+import com.example.smartkrishi.utils.PestDetectionActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText userName, userEmail, userAddress, userContact, userPassword;
     private Button userCreateBtn;
+    private ScrollView scrollView;
+    private EditText passwordEditText;
+
     private TextView userError;
 
     private RegisterService registerService;
@@ -35,8 +41,28 @@ public class RegisterActivity extends AppCompatActivity {
         userPassword = findViewById(R.id.user_password);
         userCreateBtn = findViewById(R.id.user_create_btn);
         userError = findViewById(R.id.user_error);
+        scrollView=findViewById(R.id.RegisterScrollView);
 
         registerService = new RegisterService(this);
+        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            Rect r = new Rect();
+            scrollView.getWindowVisibleDisplayFrame(r);
+            int screenHeight = scrollView.getRootView().getHeight();
+            int keypadHeight = screenHeight - r.bottom;
+
+            if (keypadHeight > screenHeight * 0.15) {
+                View focusedView = getCurrentFocus();
+                if (focusedView != null) {
+                    scrollView.post(() -> {
+                        scrollView.smoothScrollTo(0, focusedView.getTop());
+                    });
+
+                }
+            }
+        });
+
+
+
 
         userCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +80,10 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(String message) {
                             Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                            finish();
+//                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(intent);
+                            finish(); // Optional: close this activity
 
                         }
 

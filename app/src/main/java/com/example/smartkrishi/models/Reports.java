@@ -1,17 +1,20 @@
 package com.example.smartkrishi.models;
+import java.io.Serializable;
 
-public class Reports {
+public class Reports implements Serializable{
 
     private String crop_name;
     private String disease;
     private String recommendation;
     private int user_id;
+    private String image_url;
     private String created_at;
 
-    public Reports(String crop_name, int user_id, String created_at, String recommendation, String disease) {
+    public Reports(String crop_name, String created_at, String image_url, int user_id, String recommendation, String disease) {
         this.crop_name = crop_name;
-        this.user_id = user_id;
         this.created_at = created_at;
+        this.image_url = image_url;
+        this.user_id = user_id;
         this.recommendation = recommendation;
         this.disease = disease;
     }
@@ -24,12 +27,12 @@ public class Reports {
         this.crop_name = crop_name;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public String getCreated_at() {
@@ -38,6 +41,14 @@ public class Reports {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getRecommendation() {

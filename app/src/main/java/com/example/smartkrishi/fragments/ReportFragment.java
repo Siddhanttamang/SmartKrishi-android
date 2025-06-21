@@ -87,6 +87,11 @@ public class ReportFragment extends Fragment {
                     reportAdapter = new ReportAdapter(reportsList);
                     reportRecyclerView.setAdapter(reportAdapter);
                     reportRecyclerView.setVisibility(View.VISIBLE);
+                    reportAdapter.setOnItemClickListener(report -> {
+                        ProductDetailsDialogFragment dialog = ProductDetailsDialogFragment.newInstance(report);
+                        dialog.show(getParentFragmentManager(), "ProductDetailsDialog");
+                    });
+
                 }
             }
 

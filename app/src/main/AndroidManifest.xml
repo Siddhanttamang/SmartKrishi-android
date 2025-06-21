@@ -28,7 +28,7 @@
 
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
-        <activity android:name=".LoginActivity" android:exported="true">
+        <activity android:name=".LoginActivity" android:windowSoftInputMode="adjustResize" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,6 +36,7 @@
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".AuthActivity"/>
+        <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".utils.CameraActivity"/>
         <activity android:name=".utils.PestDetectionActivity" />
 

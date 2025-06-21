@@ -1,5 +1,7 @@
 package com.example.smartkrishi.Services;
 
+import android.util.Log;
+
 import com.example.smartkrishi.Responses.ReportResponse;
 import com.example.smartkrishi.api.ReportsAPi;
 import com.example.smartkrishi.api.RetrofitClient;
@@ -27,6 +29,7 @@ public class ReportService {
                     callback.onSuccess(response.body());
                 } else {
                     callback.onFailure("Failed to fetch reports");
+
                 }
             }
 
@@ -34,6 +37,7 @@ public class ReportService {
 
             public void onFailure(Call<List<Reports>> call, Throwable t) {
                 callback.onFailure("Network error: " + t.getMessage());
+
             }
 
         });

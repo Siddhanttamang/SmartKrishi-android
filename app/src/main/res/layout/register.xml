@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RegisterScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5">
+    android:background="#f5f5f5"
+    android:fillViewport="true"
+    >
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,14 +14,16 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <!-- Image at top -->
+        <!-- App Logo -->
         <ImageView
-            android:layout_width="347dp"
-            android:layout_height="211dp"
+            android:layout_width="250dp"
+            android:layout_height="150dp"
             android:contentDescription="App Logo"
-            android:scaleType="centerInside"
-            android:src="@drawable/login_logo" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/login_logo"
+            android:layout_marginBottom="24dp"/>
 
+        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,8 +37,7 @@
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="1.5"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="-10dp"/>
+            android:layout_marginBottom="24dp" />
 
         <!-- Error message -->
         <TextView
@@ -42,88 +46,108 @@
             android:layout_height="wrap_content"
             android:textColor="#D32F2F"
             android:textSize="14sp"
-            android:layout_marginBottom="12dp"
-            android:visibility="visible"
-            />
+            android:padding="8dp"
+            android:background="#FFEBEE"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-medium" />
 
         <!-- Username -->
         <EditText
             android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Username"
             android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:textColor="@color/black"
-            android:textColorHint="#A8D5BA"
-            />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edittext_rounded"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp"
+            android:inputType="textPersonName" />
 
         <!-- Email -->
         <EditText
             android:id="@+id/user_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:textColor="@color/black"
-            android:textColorHint="#A8D5BA"
-            />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edittext_rounded"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp" />
 
         <!-- Address -->
         <EditText
             android:id="@+id/user_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Address"
             android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:textColor="@color/black"
-            android:textColorHint="#A8D5BA"
-            />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edittext_rounded"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp"
+            android:inputType="textPostalAddress" />
 
         <!-- Phone Number -->
         <EditText
             android:id="@+id/user_contact"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Phone Number"
             android:inputType="phone"
             android:layout_marginBottom="16dp"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:textColor="@color/black"
-            android:textColorHint="#A8D5BA"
-            />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edittext_rounded"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp" />
 
         <!-- Password -->
         <EditText
             android:id="@+id/user_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:background="@android:drawable/edit_text"
-            android:textColor="@color/black"
-            android:textColorHint="#A8D5BA"
-            />
+            android:layout_marginBottom="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/edittext_rounded"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:fontFamily="sans-serif"
+            android:textSize="16sp" />
 
         <!-- Sign Up Button -->
         <Button
             android:id="@+id/user_create_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:text="Sign up"
             android:textAllCaps="false"
             android:backgroundTint="#388E3C"
             android:textColor="#FFFFFF"
-            android:padding="14dp"/>
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            android:elevation="4dp"
+            android:stateListAnimator="@null"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/button_rounded_green"/>
 
     </LinearLayout>
 </ScrollView>

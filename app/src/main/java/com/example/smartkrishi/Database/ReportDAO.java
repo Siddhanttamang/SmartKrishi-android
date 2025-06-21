@@ -24,6 +24,8 @@ public class ReportDAO {
         values.put("disease", report.getDisease());
         values.put("recommendation", report.getRecommendation());
         values.put("user_id", report.getUser_id());
+        values.put("image_url", report.getImage_url());
+
         values.put("created_at", report.getCreated_at()); // Format: "yyyy-MM-dd"
 
         db.insert("report", null, values);
@@ -50,11 +52,13 @@ public class ReportDAO {
         while (c.moveToNext()) {
             Reports reports = new Reports(
                     c.getString(c.getColumnIndexOrThrow("crop_name")),
-                    c.getInt(c.getColumnIndexOrThrow("user_id")),
                     c.getString(c.getColumnIndexOrThrow("created_at")),
+                    c.getString(c.getColumnIndexOrThrow("image_url")),
+                    c.getInt(c.getColumnIndexOrThrow("user_id")),
                     c.getString(c.getColumnIndexOrThrow("recommendation")),
                     c.getString(c.getColumnIndexOrThrow("disease"))
             );
+
             reportList.add(reports);
         }
 
