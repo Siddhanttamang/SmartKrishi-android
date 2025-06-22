@@ -6,29 +6,40 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@android:color/white">
-    <SearchView
-        android:id="@+id/searchView"
+
+    <!-- Modern Search View -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Search news..."
-        android:iconifiedByDefault="false"
-        android:background="@drawable/searchview_background"
-        android:padding="2dp"
-        android:textColor="@color/black"
-        android:textColorHint="#212121"
-        android:layout_marginBottom="20dp"
-    />
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@android:color/white">
 
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Search news..."
+            android:iconifiedByDefault="false"
+            android:background="@drawable/searchview_background"
+            android:padding="2dp"
+            android:textColor="@color/black"
+            android:textColorHint="#212121"
+            android:layout_marginBottom="20dp"
+         />
+    </androidx.cardview.widget.CardView>
 
-
+    <!-- News List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/newsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipToPadding="false"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
+    <!-- Lottie Loader -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/newsLoading"
         android:layout_width="200dp"
@@ -37,7 +48,6 @@
         app:lottie_rawRes="@raw/loading"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        android:visibility="visible" />
-
+        android:visibility="gone" />
 
 </LinearLayout>

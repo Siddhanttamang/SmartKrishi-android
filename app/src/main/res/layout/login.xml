@@ -21,32 +21,31 @@
         android:scaleType="centerInside"
         android:src="@drawable/login_logo" />
 
+
     <!-- Login Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Back"
+        android:text="Login"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#2E7D32"
         android:layout_marginBottom="24dp" />
-
     <!-- Error TextView -->
     <TextView
         android:id="@+id/login_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#D32F2F"
-        android:background="#FDE0DC"
         android:padding="10dp"
-        android:visibility="gone"
-        android:text="Invalid credentials. Please try again."
         android:layout_marginBottom="12dp"
-        android:drawableStart="@android:drawable/ic_dialog_alert"
+
         android:drawablePadding="8dp"
         android:textSize="14sp"
         android:elevation="2dp"
         android:gravity="center_vertical" />
+
+
 
     <!-- Email Input -->
     <EditText

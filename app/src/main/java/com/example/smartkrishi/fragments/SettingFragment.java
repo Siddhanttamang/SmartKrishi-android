@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +21,7 @@ public class SettingFragment extends Fragment {
         View view = inflater.inflate(R.layout.setting, container, false);
 
         // Find the "Report History" button
-        Button reportHistoryButton = view.findViewById(R.id.reportHistoryBtn);
+       LinearLayout reportHistoryButton = view.findViewById(R.id.reportHistoryBtn);
 
         // Set click listener to navigate to ReportFragment
         reportHistoryButton.setOnClickListener(v -> {
