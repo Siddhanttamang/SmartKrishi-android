@@ -1,79 +1,89 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="#F5F5F5">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
 
+        <!-- Product Name -->
         <EditText
             android:id="@+id/nameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:hint="Enter Product Name"
-            android:textColorHint="@color/darker_gray"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:layout_marginTop="8dp"/>
+            android:background="@drawable/edittext_rounded"
+            android:padding="14dp"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp" />
 
+        <!-- Price -->
         <EditText
             android:id="@+id/priceInput"
-            android:hint="Price (NPR)"
-            android:textColorHint="@color/darker_gray"
-            android:textColor="@color/black"
-            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:layout_marginTop="8dp"/>
+            android:hint="Price (NPR)"
+            android:inputType="numberDecimal"
+            android:background="@drawable/edittext_rounded"
+            android:padding="14dp"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp" />
 
+        <!-- Quantity -->
         <EditText
             android:id="@+id/quantityInput"
-            android:hint="Quantity (kg, liters, etc.)"
-            android:inputType="number"
-            android:textColorHint="@color/darker_gray"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:layout_marginTop="8dp"/>
+            android:hint="Quantity (kg, liters, etc.)"
+            android:inputType="text"
+            android:background="@drawable/edittext_rounded"
+            android:padding="14dp"
+            android:textColor="#212121"
+            android:textColorHint="#9E9E9E"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp" />
 
-
-
+        <!-- Select Image Button -->
         <Button
             android:id="@+id/selectImageButton"
-            android:text="Select Image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:layout_marginTop="8dp"/>
+            android:text="Select Image"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_rounded_green"
+            android:layout_marginTop="16dp"
+            android:padding="14dp"
+            android:textSize="16sp" />
 
+        <!-- Image Preview -->
         <ImageView
             android:id="@+id/selectedImageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
+            android:layout_marginTop="12dp"
             android:visibility="gone"
-            android:contentDescription="Selected product image"
-            android:layout_marginTop="8dp"/>
+            android:background="#E0E0E0"
+            android:contentDescription="Selected product image" />
 
+        <!-- Post Product Button -->
         <Button
             android:id="@+id/postButton"
-            android:text="Post Product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:text="Post Product"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_rounded_green"
+            android:layout_marginTop="20dp"
+            android:padding="14dp"
+            android:textSize="16sp" />
+
     </LinearLayout>
 </ScrollView>

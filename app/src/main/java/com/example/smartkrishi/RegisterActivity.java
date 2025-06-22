@@ -21,8 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText userName, userEmail, userAddress, userContact, userPassword;
     private Button userCreateBtn;
-    private ScrollView scrollView;
-    private EditText passwordEditText;
+
 
     private TextView userError;
 
@@ -41,29 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
         userPassword = findViewById(R.id.user_password);
         userCreateBtn = findViewById(R.id.user_create_btn);
         userError = findViewById(R.id.user_error);
-        scrollView=findViewById(R.id.RegisterScrollView);
 
         registerService = new RegisterService(this);
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            Rect r = new Rect();
-            scrollView.getWindowVisibleDisplayFrame(r);
-            int screenHeight = scrollView.getRootView().getHeight();
-            int keypadHeight = screenHeight - r.bottom;
-
-            if (keypadHeight > screenHeight * 0.15) {
-                View focusedView = getCurrentFocus();
-                if (focusedView != null) {
-                    scrollView.post(() -> {
-                        scrollView.smoothScrollTo(0, focusedView.getTop());
-                    });
-
-                }
-            }
-        });
-
-
-
-
         userCreateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

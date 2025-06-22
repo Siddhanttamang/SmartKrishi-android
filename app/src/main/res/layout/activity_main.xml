@@ -62,7 +62,18 @@
             android:src="@drawable/ic_exit"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Exit"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:visibility="visible"
+            />
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log in"
+            android:background="@drawable/button_rounded_green"
+            android:textColor="#FFFFFF"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <!-- Fragment Container -->
