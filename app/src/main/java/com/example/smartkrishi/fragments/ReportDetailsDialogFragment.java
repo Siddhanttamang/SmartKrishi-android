@@ -15,13 +15,13 @@ import com.bumptech.glide.Glide;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.models.Reports;
 
-public class ProductDetailsDialogFragment extends DialogFragment {
+public class ReportDetailsDialogFragment extends DialogFragment {
 
     private static final String ARG_REPORT = "report";
     private Reports report;
 
-    public static ProductDetailsDialogFragment newInstance(Reports report) {
-        ProductDetailsDialogFragment fragment = new ProductDetailsDialogFragment();
+    public static ReportDetailsDialogFragment newInstance(Reports report) {
+        ReportDetailsDialogFragment fragment = new ReportDetailsDialogFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_REPORT, report);
         fragment.setArguments(args);
@@ -42,14 +42,14 @@ public class ProductDetailsDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_product_details, container, false);
+        View view = inflater.inflate(R.layout.dialog_report_details, container, false);
 
         TextView tvCropName = view.findViewById(R.id.tvCropName);
         TextView tvDisease = view.findViewById(R.id.tvDisease);
         TextView tvRecommendation = view.findViewById(R.id.tvRecommendation);
         ImageView ivProductImage = view.findViewById(R.id.ivProductImage);
 
-        if (report != null) {
+        if (report != null ) {
             tvCropName.setText(report.getCrop_name());
             tvDisease.setText(report.getDisease());
             tvRecommendation.setText(report.getRecommendation());

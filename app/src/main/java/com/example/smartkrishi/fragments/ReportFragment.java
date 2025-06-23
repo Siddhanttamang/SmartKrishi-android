@@ -1,6 +1,5 @@
 package com.example.smartkrishi.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -66,11 +65,15 @@ public class ReportFragment extends Fragment {
         Collections.reverse(cachedReport);
 
         if (!cachedReport.isEmpty()) {
-
             reportAdapter = new ReportAdapter(cachedReport);
             reportRecyclerView.setAdapter(reportAdapter);
+            reportAdapter.setOnItemClickListener(report -> {
+                ReportDetailsDialogFragment dialog = ReportDetailsDialogFragment.newInstance(report);
+                dialog.show(getParentFragmentManager(), "ProductDetailsDialog");
+            });
             reportRecyclerView.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else {
             // If no cached data, show loading
             reportRecyclerView.setVisibility(View.GONE);
 
@@ -97,7 +100,7 @@ public class ReportFragment extends Fragment {
                     reportRecyclerView.setAdapter(reportAdapter);
                     reportRecyclerView.setVisibility(View.VISIBLE);
                     reportAdapter.setOnItemClickListener(report -> {
-                        ProductDetailsDialogFragment dialog = ProductDetailsDialogFragment.newInstance(report);
+                        ReportDetailsDialogFragment dialog = ReportDetailsDialogFragment.newInstance(report);
                         dialog.show(getParentFragmentManager(), "ProductDetailsDialog");
                     });
 

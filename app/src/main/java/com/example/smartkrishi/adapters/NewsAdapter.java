@@ -12,14 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.models.News;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private final List<News> newsList;
+    private final List<News> originalList;
+    private List<News> filteredList;
 
     public NewsAdapter(List<News> newsList) {
-        this.newsList = newsList;
+        this.originalList = newsList;
+        this.filteredList = new ArrayList<>(newsList);
     }
 
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
@@ -41,15 +44,28 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        News news = newsList.get(position);
-
+        News news = filteredList.get(position);
         holder.newsTitle.setText(news.getName());
         holder.newsPrice.setText(news.getPrice());
     }
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        return filteredList.size();
+    }
+
+    // Add this method for filtering
+    public void filter(String query) {
+        filteredList = new ArrayList<>();
+        if (query == null || query.trim().isEmpty()) {
+            filteredList.addAll(originalList);
+        } else {
+            for (News news : originalList) {
+                if (news.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(news);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }
-

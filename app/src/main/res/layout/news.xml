@@ -17,7 +17,7 @@
         app:cardBackgroundColor="@android:color/white">
 
         <SearchView
-            android:id="@+id/searchView"
+            android:id="@+id/newsSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:queryHint="Search news..."
