@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +30,12 @@ public class ReportFragment extends Fragment {
 
     private RecyclerView reportRecyclerView;
     private ReportAdapter reportAdapter;
+    private TextView reportLoginRequired;
+    private boolean isLoggedIn() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("auth_token", null);
+        return token != null && !token.isEmpty();
+    }
 
 
 
@@ -45,6 +52,14 @@ public class ReportFragment extends Fragment {
 
 
         ReportDAO reportDAO = new ReportDAO(requireContext());
+        if (!isLoggedIn()) {
+            reportRecyclerView.setVisibility(View.GONE);
+            reportLoginRequired =view.findViewById(R.id.reportLoginRequired);
+            reportLoginRequired.setVisibility(View.VISIBLE);
+
+            return view;
+        }
+
 
         // Load cached news first
         List<Reports> cachedReport = reportDAO.getReports();
@@ -63,12 +78,6 @@ public class ReportFragment extends Fragment {
 
         SharedPreferences prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         String token = prefs.getString("auth_token", null);
-
-        if (token == null) {
-            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
-            return view;
-        }
-
         ReportService reportService = new ReportService();
         reportService.getAllReports(token,new ReportService.ReportCallback() {
             @Override

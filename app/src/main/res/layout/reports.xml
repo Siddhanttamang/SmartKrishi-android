@@ -15,6 +15,7 @@
         android:textStyle="bold"
         android:textColor="#2E7D32" />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reportsRecyclerView"
         android:layout_width="match_parent"
@@ -23,5 +24,16 @@
         android:padding="8dp"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
+    <TextView
+        android:id="@+id/reportLoginRequired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You are not Logged in..."
+        android:textColor="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:layout_weight="2"
+        android:visibility="gone"
+        android:padding="16dp"/>
+
 
 </LinearLayout>
