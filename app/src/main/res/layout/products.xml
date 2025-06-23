@@ -27,8 +27,6 @@
             app:iconifiedByDefault="false"
             android:background="@drawable/searchview_background" />
 
-
-
         <!-- Sell Vegetable Button -->
         <Button
             android:id="@+id/btnSell"
@@ -37,7 +35,6 @@
             android:text="Sell Vegetable"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
-            android:backgroundTint="#4CAF50"
             android:paddingHorizontal="16dp"
             android:background="@drawable/button_rounded_green" />
     </LinearLayout>
@@ -50,8 +47,18 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
+    <TextView
+        android:id="@+id/productLoginRequired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login to view and sell vegetables"
+        android:textColor="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="16dp"/>
 
-    <!-- Lottie Loading -->
+
+    <!-- Lottie Loading Animation -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/productsLoading"
         android:layout_width="200dp"
@@ -60,5 +67,5 @@
         app:lottie_rawRes="@raw/loading"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </LinearLayout>

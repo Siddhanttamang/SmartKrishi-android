@@ -1,10 +1,12 @@
 package com.example.smartkrishi.fragments;
-
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,13 @@ public class MarketFragment extends Fragment {
     private ProductsAdapter productsAdapter;
     private View productsLoading;
     private Button btnSell;
+    private TextView productLoginRequired;
+
+    private boolean isLoggedIn() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("auth_token", null);
+        return token != null && !token.isEmpty();
+    }
 
     @Nullable
     @Override
@@ -39,32 +48,39 @@ public class MarketFragment extends Fragment {
         productsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         productsLoading = view.findViewById(R.id.productsLoading);
-        btnSell=view.findViewById(R.id.btnSell);
+        btnSell = view.findViewById(R.id.btnSell);
 
+        // Hide or show based on login status
+        if (!isLoggedIn()) {
+            btnSell.setVisibility(View.GONE);
+            productsRecyclerView.setVisibility(View.GONE);
+            productsLoading.setVisibility(View.GONE);
+            productLoginRequired=view.findViewById(R.id.productLoginRequired);
+            productLoginRequired.setVisibility(View.VISIBLE);
+            return view;
+        }
+
+        // Show loading
+        productsLoading.setVisibility(View.VISIBLE);
+
+        // Sell button opens PostProductFragment
         btnSell.setOnClickListener(v -> {
             FragmentTransaction transaction = requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction();
             transaction.replace(R.id.fragment_container, new PostProductFragment());
-            transaction.addToBackStack(null);  // Allows back navigation
+            transaction.addToBackStack(null);
             transaction.commit();
         });
 
-        // Show loading initially
-        productsLoading.setVisibility(View.VISIBLE);
-        productsRecyclerView.setVisibility(View.GONE);
-
-
-        // Fetch products from API
+        // Fetch products if logged in
         MarketService marketService = new MarketService();
         marketService.fetchProducts(new MarketService.ProductsCallback() {
             @Override
             public void onSuccess(List<Products> productsList) {
-                // Only update UI if fragment is attached to activity
                 if (isAdded() && getContext() != null) {
                     productsAdapter = new ProductsAdapter(productsList);
                     productsRecyclerView.setAdapter(productsAdapter);
-
                     productsLoading.setVisibility(View.GONE);
                     productsRecyclerView.setVisibility(View.VISIBLE);
                 }
