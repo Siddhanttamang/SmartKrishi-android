@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,25 @@ public class MarketFragment extends Fragment {
             productLoginRequired.setVisibility(View.VISIBLE);
             return view;
         }
+        SearchView searchView = view.findViewById(R.id.productSearch);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (productsAdapter != null) {
+                    productsAdapter.filter(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (productsAdapter != null) {
+                    productsAdapter.filter(newText);
+                }
+                return true;
+            }
+        });
+
 
         // Show loading
         productsLoading.setVisibility(View.VISIBLE);

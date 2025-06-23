@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,25 @@ public class NewsFragment extends Fragment {
         newsLoading = view.findViewById(R.id.newsLoading); // ProgressBar or Lottie
 
         NewsDAO newsDAO = new NewsDAO(requireContext());
+        SearchView searchView = view.findViewById(R.id.newsSearch);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (newsAdapter != null) {
+                    newsAdapter.filter(query);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newsAdapter != null) {
+                    newsAdapter.filter(newText);
+                }
+                return true;
+            }
+        });
+
 
         // Load cached news first
         List<News> cachedNews = newsDAO.getAllNews();
