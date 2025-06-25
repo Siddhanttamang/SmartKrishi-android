@@ -1,10 +1,13 @@
 package com.example.smartkrishi.models;
-public class Products {
+import java.io.Serializable;
+public class Products implements Serializable{
+    private int id;
     private String name;
     private int quantity;
     private int price;
     private String image_url;
     private String user_name;
+    private int user_id;
     private String user_address;
     private String user_contact;
 
@@ -19,6 +22,19 @@ public class Products {
         this.quantity = quantity;
     }
 
+
+    public int getId(){
+        return id;
+    }
+    public void setId(int id){
+        this.id=id;
+    }
+    public int getUser_id(){
+        return user_id;
+    }
+    public void setUser_id(int user_id){
+        this.user_id=user_id;
+    }
     public String getName() {
         return name;
     }

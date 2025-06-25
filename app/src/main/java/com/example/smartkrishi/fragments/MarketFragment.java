@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartkrishi.R;
+import com.example.smartkrishi.Responses.UserLoginResponse;
 import com.example.smartkrishi.Services.MarketService;
 import com.example.smartkrishi.adapters.ProductsAdapter;
 import com.example.smartkrishi.models.Products;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ public class MarketFragment extends Fragment {
 
         productsLoading = view.findViewById(R.id.productsLoading);
         btnSell = view.findViewById(R.id.btnSell);
+
 
         // Hide or show based on login status
         if (!isLoggedIn()) {
@@ -99,10 +102,18 @@ public class MarketFragment extends Fragment {
             @Override
             public void onSuccess(List<Products> productsList) {
                 if (isAdded() && getContext() != null) {
-                    productsAdapter = new ProductsAdapter(productsList);
-                    productsRecyclerView.setAdapter(productsAdapter);
-                    productsLoading.setVisibility(View.GONE);
-                    productsRecyclerView.setVisibility(View.VISIBLE);
+                    SharedPreferences prefs = getContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+                    String userJson = prefs.getString("user_data", null);
+
+                    if (userJson != null) {
+                        Gson gson = new Gson();
+                        UserLoginResponse.UserData user = gson.fromJson(userJson, UserLoginResponse.UserData.class);
+                        int userId = user.getId();
+                        productsAdapter = new ProductsAdapter(requireContext(), getParentFragmentManager(), productsList, userId);
+                        productsRecyclerView.setAdapter(productsAdapter);
+                        productsLoading.setVisibility(View.GONE);
+                        productsRecyclerView.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
