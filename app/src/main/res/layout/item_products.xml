@@ -66,17 +66,34 @@
                 android:layout_height="wrap_content"
                 android:text="Location: Jhapa"
                 android:textColor="#555" />
-
-            <Button
-                android:id="@+id/contactSellerButton"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="6dp"
-                android:text="Contact Seller"
-                android:backgroundTint="#4CAF50"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_rounded_green"
-                android:textSize="12sp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/contactSellerButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Contact Seller"
+                    android:background="@drawable/button_rounded_green"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/EditProductButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Edit"
+                    android:background="@drawable/button_rounded_blue"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

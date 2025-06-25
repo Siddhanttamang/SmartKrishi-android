@@ -13,11 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
 import com.example.smartkrishi.R;
+import com.example.smartkrishi.fragments.EditProductFragment;
+import com.example.smartkrishi.fragments.PostProductFragment;
 import com.example.smartkrishi.models.Products;
 
 import java.util.ArrayList;
@@ -26,17 +30,27 @@ import java.util.List;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductViewHolder> {
     private final List<Products> originalList;
     private List<Products> filteredList;
+    private final int currentUserId;
 
-    public ProductsAdapter(List<Products> productList) {
+    private final Context context;
+    private final FragmentManager fragmentManager; // <-- Add this
+
+    public ProductsAdapter(Context context, FragmentManager fragmentManager, List<Products> productList, int currentUserId) {
+        this.context = context;
+        this.fragmentManager = fragmentManager; // <-- Save it
         this.originalList = productList;
         this.filteredList = new ArrayList<>(productList);
+        this.currentUserId = currentUserId;
     }
+
+
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_products, parent, false);
+
         return new ProductViewHolder(view);
     }
 
@@ -53,6 +67,23 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
                 .load(p.getImage_url())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.productImage);
+        // 👇 Show Edit button only if current user is the owner
+        if (p.getUser_id() == currentUserId) {
+            holder.editButton.setVisibility(View.VISIBLE);
+            holder.contactButton.setVisibility(View.GONE);
+        } else {
+            holder.editButton.setVisibility(View.GONE);
+        }
+
+        holder.editButton.setOnClickListener(v -> {
+            EditProductFragment editFragment = EditProductFragment.newInstance(p); // Pass product
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_container, editFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+
+
 
         holder.contactButton.setOnClickListener(v -> {
             String phone = p.getUser_contact();
@@ -104,7 +135,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
         TextView productName, productPrice, productSeller, productLocation, productQuantity;
-        Button contactButton;
+        Button contactButton,editButton;
+
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +147,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             productSeller = itemView.findViewById(R.id.productSeller);
             productLocation = itemView.findViewById(R.id.productLocation);
             contactButton = itemView.findViewById(R.id.contactSellerButton);
+            editButton= itemView.findViewById(R.id.EditProductButton);
         }
     }
 }
