@@ -67,10 +67,14 @@ public class LoginActivity extends Activity {
                     userService.getCurrentUser(token, new UserService.UserCallback() {
                         @Override
                         public void onSuccess(UserLoginResponse.UserData user) {
-                            // Save user info as JSON
-                            Gson gson = new Gson();
-                            String userJson = gson.toJson(user);
-                            prefs.edit().putString("user_data", userJson).apply();
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putInt("user_id", user.getId());
+                            editor.putString("user_name", user.getName());
+                            editor.putString("user_email", user.getEmail());
+                            editor.putString("user_contact", user.getContact());
+                            editor.putString("user_address", user.getAddress());
+                            editor.apply();
+
 
                             // Go to MainActivity
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

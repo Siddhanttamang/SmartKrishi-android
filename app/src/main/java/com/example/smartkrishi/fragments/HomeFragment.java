@@ -27,24 +27,23 @@ public class HomeFragment extends Fragment {
         userName= view.findViewById(R.id.user_name);
         weatherInfo = view.findViewById(R.id.weatherInfo);
         weatherLocation = view.findViewById(R.id.weather_location);
-
-        SharedPreferences prefs = getActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        String userJson = prefs.getString("user_data", null);
-
-
-
-
+        if (!isLoggedIn()) {
+            return view;
+        }
+        SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        String name = prefs.getString("user_name", "User");
+        String address = prefs.getString("user_address", "Kathmandu");
+        userName.setText("Welcome, "+name);
         // Initialize WeatherService
         weatherService = new WeatherService(requireContext());
-        if (userJson != null) {
-            Gson gson = new Gson();
-            UserLoginResponse.UserData user = gson.fromJson(userJson, UserLoginResponse.UserData.class);
-            String name = user.getName(); // Use safely now
-            String address= user.getAddress();
-            userName.setText("Welcome, "+name);
-            weatherService.fetchWeather(address, weatherInfo, weatherLocation);
-        }
+        weatherService.fetchWeather(address, weatherInfo, weatherLocation);
+
 
         return view;
+    }
+    private boolean isLoggedIn() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("auth_token", null);
+        return token != null && !token.isEmpty();
     }
 }

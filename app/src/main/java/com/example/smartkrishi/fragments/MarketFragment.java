@@ -102,18 +102,13 @@ public class MarketFragment extends Fragment {
             @Override
             public void onSuccess(List<Products> productsList) {
                 if (isAdded() && getContext() != null) {
-                    SharedPreferences prefs = getContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-                    String userJson = prefs.getString("user_data", null);
-
-                    if (userJson != null) {
-                        Gson gson = new Gson();
-                        UserLoginResponse.UserData user = gson.fromJson(userJson, UserLoginResponse.UserData.class);
-                        int userId = user.getId();
+                    SharedPreferences prefs = requireActivity().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+                    int userId = prefs.getInt("user_id", -1);
                         productsAdapter = new ProductsAdapter(requireContext(), getParentFragmentManager(), productsList, userId);
                         productsRecyclerView.setAdapter(productsAdapter);
                         productsLoading.setVisibility(View.GONE);
                         productsRecyclerView.setVisibility(View.VISIBLE);
-                    }
+
                 }
             }
 

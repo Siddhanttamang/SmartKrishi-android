@@ -48,13 +48,16 @@ public class ReportFragment extends Fragment {
 
         reportRecyclerView = view.findViewById(R.id.reportsRecyclerView);
         reportRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        reportLoginRequired =view.findViewById(R.id.reportLoginRequired);
 
 
         ReportDAO reportDAO = new ReportDAO(requireContext());
         if (!isLoggedIn()) {
+            reportDAO.clearReports();
             reportRecyclerView.setVisibility(View.GONE);
-            reportLoginRequired =view.findViewById(R.id.reportLoginRequired);
+            reportLoginRequired.setText("Please log in to view reports.");
             reportLoginRequired.setVisibility(View.VISIBLE);
+
 
             return view;
         }
@@ -74,8 +77,9 @@ public class ReportFragment extends Fragment {
             reportRecyclerView.setVisibility(View.VISIBLE);
         }
         else {
-            // If no cached data, show loading
             reportRecyclerView.setVisibility(View.GONE);
+            reportLoginRequired.setText("No reports available.");
+            reportLoginRequired.setVisibility(View.VISIBLE);
 
         }
 
@@ -84,34 +88,44 @@ public class ReportFragment extends Fragment {
         ReportService reportService = new ReportService();
         reportService.getAllReports(token,new ReportService.ReportCallback() {
             @Override
-
             public void onSuccess(List<Reports> reportsList) {
                 if (isAdded() && getContext() != null) {
-                    // Clear previous local data before inserting new
                     reportDAO.clearReports();
 
-                    // Insert fresh reports from API
-                    for (Reports report : reportsList) {
-                        reportDAO.insertReport(report);
+                    if (reportsList == null || reportsList.isEmpty()) {
+
+                        reportRecyclerView.setVisibility(View.GONE);
+                        reportLoginRequired.setText("No reports available.");
+                        reportLoginRequired.setVisibility(View.VISIBLE);
+                        return;
                     }
 
-                    // Update UI
+
+                    for (Reports report : reportsList) {
+                        if (report != null && report.getCrop_name() != null) {
+                            reportDAO.insertReport(report);
+                        }
+                    }
+
                     reportAdapter = new ReportAdapter(reportsList);
                     reportRecyclerView.setAdapter(reportAdapter);
-                    reportRecyclerView.setVisibility(View.VISIBLE);
                     reportAdapter.setOnItemClickListener(report -> {
                         ReportDetailsDialogFragment dialog = ReportDetailsDialogFragment.newInstance(report);
                         dialog.show(getParentFragmentManager(), "ProductDetailsDialog");
                     });
 
+                    reportRecyclerView.setVisibility(View.VISIBLE);
+                    reportLoginRequired.setVisibility(View.GONE);
                 }
+
+
             }
 
             @Override
             public void onFailure(String errorMessage) {
                 if (isAdded() && getContext() != null) {
                     Log.d("ReportFragment",errorMessage);
-                    Toast.makeText(getContext(), "Failed to get Report: " + errorMessage, Toast.LENGTH_SHORT).show();
+
 
                     if (cachedReport.isEmpty()) {
                         reportRecyclerView.setVisibility(View.GONE);

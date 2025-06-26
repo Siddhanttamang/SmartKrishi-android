@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.smartkrishi.Database.ReportDAO;
 import com.example.smartkrishi.utils.MenuHandler;
 import com.example.smartkrishi.fragments.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,6 +46,10 @@ public class MainActivity extends FragmentActivity {
                             editor.remove("auth_token");
                             editor.remove("user_data");  // optional clear user info
                             editor.apply();
+                            ReportDAO reportDAO= new ReportDAO(this);
+                            reportDAO.clearReports();
+
+
 
                             // Update UI
                             loginBtn.setVisibility(View.VISIBLE);
