@@ -57,11 +57,9 @@ public class RegisterActivity extends AppCompatActivity {
                     registerService.registerUser(user, new RegisterService.AuthCallback() {
                         @Override
                         public void onSuccess(String message) {
+
                             Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
-//                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            startActivity(intent);
-                            finish(); // Optional: close this activity
+
 
                         }
 

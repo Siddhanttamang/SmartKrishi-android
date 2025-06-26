@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.smartkrishi.R;
 import com.example.smartkrishi.models.Reports;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportViewHolder> {
@@ -29,7 +30,21 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     }
 
     public ReportAdapter(List<Reports> reportsList) {
-        this.reportsList = reportsList;
+        // Ensure mutable list for updates
+        if (reportsList != null) {
+            this.reportsList = new ArrayList<>(reportsList);
+        } else {
+            this.reportsList = new ArrayList<>();
+        }
+    }
+
+    // Setter to update the reports list and notify adapter
+    public void setReports(List<Reports> newReports) {
+        reportsList.clear();
+        if (newReports != null) {
+            reportsList.addAll(newReports);
+        }
+        notifyDataSetChanged();
     }
 
     public class ReportViewHolder extends RecyclerView.ViewHolder {
@@ -52,7 +67,6 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
             });
         }
 
-        // Optional: clean way to bind views
         public void bind(Reports report) {
             cropName.setText(report.getCrop_name());
             disease.setText(report.getDisease());
@@ -77,7 +91,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     @Override
     public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
         Reports report = reportsList.get(position);
-        holder.bind(report); // Use bind method
+        holder.bind(report);
     }
 
     @Override

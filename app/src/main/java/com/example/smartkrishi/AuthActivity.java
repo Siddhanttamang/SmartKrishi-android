@@ -1,6 +1,7 @@
 package com.example.smartkrishi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -51,7 +52,10 @@ public class AuthActivity extends Activity {
                     @Override
                     public void onSuccess(String message) {
                         Toast.makeText(AuthActivity.this, message, Toast.LENGTH_LONG).show();
-                        clearForm();
+                        Intent intent = new Intent(AuthActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+
                     }
 
                     @Override
@@ -113,13 +117,4 @@ public class AuthActivity extends Activity {
         return isValid;
     }
 
-    // Reset fields
-    private void clearForm() {
-        user_name.setText("");
-        user_email.setText("");
-        user_address.setText("");
-        user_contact.setText("");
-        user_password.setText("");
-        user_error.setVisibility(View.GONE);
-    }
 }

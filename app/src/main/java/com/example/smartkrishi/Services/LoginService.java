@@ -13,8 +13,10 @@ import retrofit2.Response;
 
 public class LoginService {
     private final AuthApi authApi;
+    private final Context context;
 
     public LoginService(Context context) {
+        this.context=context;
         authApi = RetrofitClient.getClient().create(AuthApi.class);
     }
 
@@ -26,6 +28,7 @@ public class LoginService {
             public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getAccessToken());
+
 
                 } else {
                     callback.onError("Invalid email or password");

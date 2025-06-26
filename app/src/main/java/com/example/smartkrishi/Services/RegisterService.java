@@ -25,6 +25,7 @@ public class RegisterService {
             public void onResponse(Call<UserRegister> call, Response<UserRegister> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess("User registered successfully.");
+
                 } else {
                     callback.onError("Registration failed. Error: " + response.code());
                 }

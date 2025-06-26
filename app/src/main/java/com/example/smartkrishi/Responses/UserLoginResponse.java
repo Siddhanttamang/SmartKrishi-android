@@ -1,5 +1,7 @@
 package com.example.smartkrishi.Responses;
 
+import java.io.Serializable;
+
 public class UserLoginResponse {
     private String access_token;
     private UserData user;
@@ -12,12 +14,13 @@ public class UserLoginResponse {
         return user;
     }
 
-    public static class UserData {
+    public static class UserData implements Serializable {
         private int id;
         private String name;
         private String email;
         private String address;
         private String contact;
+        public UserData() {}
 
         public UserData(int id, String contact, String address, String email, String name) {
             this.id = id;
