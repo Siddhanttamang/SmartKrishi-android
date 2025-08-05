@@ -35,8 +35,7 @@ public class MenuHandler {
 
         } else if (itemId == R.id.nav_detect) {
             // Show dialog overlay instead of replacing fragment
-            new ImagePickerFragment().show(activity.getSupportFragmentManager(), "ImagePicker");
-            return true;
+            replaceFragment(new ImagePickerFragment());
 
         } else if (itemId == R.id.nav_market) {
             header.setText("Market Place");

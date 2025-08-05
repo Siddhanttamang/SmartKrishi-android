@@ -116,7 +116,15 @@ public class PostProductFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(getContext(), "Product posted successfully", Toast.LENGTH_SHORT).show();
-                } else {
+
+                    // Navigate to MarketFragment
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new MarketFragment())
+                            .addToBackStack(null) // optional if you want to allow back navigation
+                            .commit();
+                }
+                else {
                     try {
                         String error = response.errorBody() != null ? response.errorBody().string() : "No error body";
                         Log.e("PostProduct", "Failed: " + response.code() + ", " + error);
