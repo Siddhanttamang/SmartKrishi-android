@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.example.smartkrishi.R;
 import com.example.smartkrishi.utils.PestDetectionActivity;
 
 import java.io.File;
@@ -117,9 +118,9 @@ public class ImagePickerFragment extends Fragment {
 
     private void showChoiceDialog() {
         String[] options = {"Camera", "Gallery"};
-        new AlertDialog.Builder(requireContext())
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setTitle("Select Image From")
-                .setItems(options, (dialog, which) -> {
+                .setItems(options, (dialogInterface, which) -> {
                     if (which == 0) {
                         openCamera();
                     } else {
@@ -127,8 +128,14 @@ public class ImagePickerFragment extends Fragment {
                     }
                 })
                 .setCancelable(true)
-                .show();
+                .create();
+
+        // Handle dialog cancel (e.g., back press or tap outside)
+        dialog.setOnCancelListener(dialogInterface -> closeFragment());
+
+        dialog.show();
     }
+
 
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -172,7 +179,8 @@ public class ImagePickerFragment extends Fragment {
     private void closeFragment() {
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .remove(this)
+                .replace(R.id.fragment_container, new HomeFragment()) // replace with your previous fragment
                 .commit();
     }
+
 }
