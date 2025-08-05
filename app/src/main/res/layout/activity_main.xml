@@ -19,10 +19,12 @@
         android:background="@android:color/white"
         android:elevation="4dp">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/app_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:padding="0dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
             android:src="@drawable/ic_app_logo"
             android:contentDescription="App Logo"
             android:scaleType="centerInside" />
