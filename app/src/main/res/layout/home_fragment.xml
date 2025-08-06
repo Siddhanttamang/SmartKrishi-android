@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#F5F5F5"
-    android:padding="6dp">
+    android:padding="6dp"
+    app:ignore="NamespaceTypo">
 
-    <!-- Profile Section -->
+    <!-- Profile Section Card (unchanged) -->
     <androidx.cardview.widget.CardView
         card_view:cardUseCompatPadding="true"
         android:layout_width="match_parent"
@@ -62,14 +63,15 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Weather Section -->
+    <!-- Weather Section - Redesigned -->
     <androidx.cardview.widget.CardView
         android:id="@+id/weather_section"
+        card_view:cardUseCompatPadding="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardUseCompatPadding="true"
         card_view:cardCornerRadius="16dp"
-        card_view:cardElevation="4dp"
+        card_view:cardElevation="6dp"
+        android:layout_marginBottom="6dp"
         android:layout_weight="2"
         android:backgroundTint="#FFFFFF">
 
@@ -77,24 +79,118 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/weatherInfo"
-                android:layout_width="wrap_content"
+            android:padding="16dp"
+            android:gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="#37474F" />
+                android:layout_marginBottom="50dp">
 
+
+            <!-- Weather Icon -->
+            <ImageView
+                android:id="@+id/weather_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_weather_placeholder"
+                android:contentDescription="Weather Icon" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+            <!-- Location -->
             <TextView
                 android:id="@+id/weather_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#78909C" />
+                android:text="Location"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#37474F"
+                android:layout_margin="10dp"/>
+                <!-- Description -->
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear sky"
+                    android:textSize="16sp"
+                    android:textColor="#455A64"
+                    android:layout_margin="10dp" />
+            </LinearLayout>
+            </LinearLayout>
+
+            <!-- Temperature & Feels Like -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="4dp">
+
+                <TextView
+                    android:id="@+id/temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25°C"
+                    android:textSize="18sp"
+                    android:textColor="#FF5722"
+                    android:layout_margin="12dp" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/feels_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Feels like: 27°C"
+                    android:layout_margin="12dp"
+                    android:textSize="16sp"
+                    android:textColor="#616161" />
+            </LinearLayout>
+
+            <!-- Humidity & Wind -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:id="@+id/humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Humidity: 65%"
+                    android:layout_margin="12dp"
+                    android:textSize="16sp"
+                    android:textColor="#616161"
+                    android:layout_marginEnd="12dp" />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wind: 3.5 m/s"
+                    android:layout_margin="12dp"
+                    android:textSize="16sp"
+                    android:textColor="#616161" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

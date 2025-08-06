@@ -10,8 +10,7 @@ public class Weather {
     public Weather(String temperature, String description, String date) {
         this.temperature = temperature;
         this.description = description;
-        this.date = date;
-    }
+        this.date = date;  }
 
     public String getTemperature() {
         return temperature;
