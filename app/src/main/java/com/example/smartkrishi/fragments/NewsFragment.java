@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ public class NewsFragment extends Fragment {
 
     private RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
+    private TextView updatedOnTextView;
+
     private View newsLoading; // Can be ProgressBar or LottieAnimationView
 
 
@@ -38,6 +41,8 @@ public class NewsFragment extends Fragment {
 
         newsRecyclerView = view.findViewById(R.id.newsRecyclerView);
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        updatedOnTextView = view.findViewById(R.id.updatedOnTextView);
+
 
         newsLoading = view.findViewById(R.id.newsLoading); // ProgressBar or Lottie
 
@@ -71,6 +76,7 @@ public class NewsFragment extends Fragment {
             newsRecyclerView.setAdapter(newsAdapter);
             newsRecyclerView.setVisibility(View.VISIBLE);
             newsLoading.setVisibility(View.GONE);
+            updatedOnTextView.setText("Updated on: " + cachedNews.get(0).getUpdated_at());
         } else {
             // If no cached data, show loading
             newsRecyclerView.setVisibility(View.GONE);
@@ -91,6 +97,7 @@ public class NewsFragment extends Fragment {
                 for (News news : newsList) {
                     newsDAO.insertNews(news);
                 }
+                updatedOnTextView.setText("Updated on: " + newsList.get(0).getUpdated_at());
                 newsAdapter = new NewsAdapter(newsList);
                 newsRecyclerView.setAdapter(newsAdapter);
                 newsLoading.setVisibility(View.GONE);

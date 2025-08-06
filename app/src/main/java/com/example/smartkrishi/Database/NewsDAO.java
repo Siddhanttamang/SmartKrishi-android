@@ -22,6 +22,7 @@ public class NewsDAO {
         ContentValues values = new ContentValues();
         values.put("title", news.getName());
         values.put("price", news.getPrice());
+        values.put("updated_at", news.getUpdated_at());
         db.insert("news", null, values);
         db.close();
     }
@@ -39,11 +40,15 @@ public class NewsDAO {
 
         if (cursor.moveToFirst()) {
             do {
-                News news = new News(cursor.getString(cursor.getColumnIndexOrThrow("title")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("price")));
+                News news = new News(
+                        cursor.getString(cursor.getColumnIndexOrThrow("title")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("price")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("updated_at"))
+                );
                 newsList.add(news);
             } while (cursor.moveToNext());
         }
+
 
         cursor.close();
         db.close();

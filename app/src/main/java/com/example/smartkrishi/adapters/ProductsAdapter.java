@@ -62,6 +62,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         holder.productQuantity.setText("Quantity: " + p.getQuantity() + " KG");
         holder.productSeller.setText("Seller Name: " + p.getUser_name());
         holder.productLocation.setText("Seller Address: " + p.getUser_address());
+        holder.createdAt.setText(""+p.getCreated_at());
 
         Glide.with(holder.itemView.getContext())
                 .load(p.getImage_url())
@@ -134,7 +135,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView productImage;
-        TextView productName, productPrice, productSeller, productLocation, productQuantity;
+        TextView productName, productPrice, productSeller, productLocation, productQuantity,createdAt;
         Button contactButton,editButton;
 
 
@@ -146,6 +147,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
             productQuantity = itemView.findViewById(R.id.productQuantity);
             productSeller = itemView.findViewById(R.id.productSeller);
             productLocation = itemView.findViewById(R.id.productLocation);
+            createdAt = itemView.findViewById(R.id.createdAt);
             contactButton = itemView.findViewById(R.id.contactSellerButton);
             editButton= itemView.findViewById(R.id.EditProductButton);
         }

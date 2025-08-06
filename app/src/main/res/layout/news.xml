@@ -11,7 +11,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:cardBackgroundColor="@android:color/white">
@@ -26,9 +26,22 @@
             android:padding="2dp"
             android:textColor="@color/black"
             android:textColorHint="#212121"
-            android:layout_marginBottom="20dp"
-         />
+            android:layout_marginBottom="0dp"
+            />
     </androidx.cardview.widget.CardView>
+
+    <!-- Updated On TextView -->
+    <TextView
+        android:id="@+id/updatedOnTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Updated on: --/--/----"
+        android:textColor="#444444"
+        android:textSize="14sp"
+        android:paddingBottom="8dp"
+        android:gravity="start"
+        />
 
     <!-- News List -->
     <androidx.recyclerview.widget.RecyclerView

@@ -6,14 +6,16 @@ public class Products implements Serializable{
     private int quantity;
     private int price;
     private String image_url;
+    private String created_at;
     private String user_name;
     private int user_id;
     private String user_address;
     private String user_contact;
 
 
-    public Products(String name, String user_contact, String user_address, String user_name, int price, String image_url, int quantity) {
+    public Products(String name,String created_at, String user_contact, String user_address, String user_name, int price, String image_url, int quantity) {
         this.name = name;
+        this.created_at=created_at;
         this.user_contact = user_contact;
         this.user_address = user_address;
         this.user_name = user_name;
@@ -65,6 +67,15 @@ public class Products implements Serializable{
 
     public void setPrice(int price) {
         this.price = price;
+    }
+    public String getCreated_at() {
+
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+
+        this.created_at = created_at;
     }
 
     public String getUser_name() {
