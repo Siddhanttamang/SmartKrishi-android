@@ -5,22 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 
-
 import ai.onnxruntime.*;
-
 
 import java.io.InputStream;
 import java.nio.FloatBuffer;
-import java.util.Collections;
+import java.util.*;
 
 public class ONNXClassifier {
 
     private static final String TAG = "ONNXClassifier";
     private final OrtEnvironment env;
     private final OrtSession session;
-    private final int inputSize = 128; // Match your model input shape
+    private final int inputSize = 128; // Match PyTorch model input
 
-    // Model classes (in order!)
     private final String[] classNames = {
             "Bean_angular_leaf_spot", "Bean_bean_rust",
             "Cauliflower_Alternaria_Leaf_Spot", "Cauliflower_Black_Rot",
@@ -37,7 +34,6 @@ public class ONNXClassifier {
         try {
             env = OrtEnvironment.getEnvironment();
 
-            // Load ONNX model from assets
             InputStream modelStream = context.getAssets().open("pest_model.onnx");
             byte[] modelBytes = new byte[modelStream.available()];
             modelStream.read(modelBytes);
@@ -46,39 +42,55 @@ public class ONNXClassifier {
             OrtSession.SessionOptions options = new OrtSession.SessionOptions();
             session = env.createSession(modelBytes, options);
 
-            // Verify input shape
-            NodeInfo nodeInfo = session.getInputInfo().values().iterator().next();
-            TensorInfo inputInfo = (TensorInfo) nodeInfo.getInfo();
-            long[] shape = inputInfo.getShape();
-            if (shape[2] != inputSize || shape[3] != inputSize) {
-                throw new Exception("Model expects input size " + shape[2] + "x" + shape[3]);
-            }
-
         } catch (Exception e) {
             Log.e(TAG, "Initialization error", e);
             throw new Exception("Failed to initialize ONNX classifier: " + e.getMessage());
         }
     }
 
+    /**
+     * Classify single bitmap (no TTA).
+     * Returns top prediction string with confidence.
+     */
     public String classify(Bitmap bitmap) throws Exception {
-        Bitmap resized = Bitmap.createScaledBitmap(bitmap, inputSize, inputSize, true);
+        float[] scores = runModel(bitmap);
+        float[] probs = softmax(scores);
+        int maxIndex = argMax(probs);
+        return classNames[maxIndex] + " (" + String.format("%.1f", probs[maxIndex] * 100) + "%)";
+    }
 
+    /**
+     * Run model on single image.
+     */
+    private float[] runModel(Bitmap bmp) throws Exception {
         FloatBuffer buffer = FloatBuffer.allocate(1 * 3 * inputSize * inputSize);
-        for (int y = 0; y < inputSize; y++) {
-            for (int x = 0; x < inputSize; x++) {
-                int pixel = resized.getPixel(x, y);
+        Bitmap resized = Bitmap.createScaledBitmap(bmp, inputSize, inputSize, true);
 
-                float r = ((Color.red(pixel) / 255.0f) - 0.485f) / 0.229f;
-                float g = ((Color.green(pixel) / 255.0f) - 0.456f) / 0.224f;
-                float b = ((Color.blue(pixel) / 255.0f) - 0.406f) / 0.225f;
-
-                buffer.put(r);
-                buffer.put(g);
-                buffer.put(b);
+// For each channel, fill all pixels
+        for (int c = 0; c < 3; c++) {
+            for (int y = 0; y < inputSize; y++) {
+                for (int x = 0; x < inputSize; x++) {
+                    int pixel = resized.getPixel(x, y);
+                    float value;
+                    switch (c) {
+                        case 0: // R
+                            value = ((Color.red(pixel) / 255.0f) - 0.485f) / 0.229f;
+                            break;
+                        case 1: // G
+                            value = ((Color.green(pixel) / 255.0f) - 0.456f) / 0.224f;
+                            break;
+                        case 2: // B
+                            value = ((Color.blue(pixel) / 255.0f) - 0.406f) / 0.225f;
+                            break;
+                        default:
+                            value = 0;
+                    }
+                    buffer.put(value);
+                }
             }
         }
-
         buffer.rewind();
+
         long[] shape = {1, 3, inputSize, inputSize};
 
         try (OnnxTensor inputTensor = OnnxTensor.createTensor(env, buffer, shape)) {
@@ -86,32 +98,42 @@ public class ONNXClassifier {
                     session.getInputNames().iterator().next(), inputTensor));
 
             float[][] output = (float[][]) result.get(0).getValue();
-            return getTopClass(output[0]);
+            return output[0];  // raw logits before softmax
         }
     }
 
-    private String getTopClass(float[] scores) {
-        int maxIdx = 0;
+    /**
+     * Softmax function.
+     */
+    private float[] softmax(float[] scores) {
+        float max = scores[0];
+        for (float v : scores) {
+            if (v > max) max = v;
+        }
         float sum = 0f;
-
-        // Softmax: compute exp and sum
         float[] expScores = new float[scores.length];
         for (int i = 0; i < scores.length; i++) {
-            expScores[i] = (float) Math.exp(scores[i]);
+            expScores[i] = (float) Math.exp(scores[i] - max);
             sum += expScores[i];
         }
-
-        // Find max after softmax
-        float maxProb = 0f;
-        for (int i = 0; i < expScores.length; i++) {
-            float prob = expScores[i] / sum;
-            if (prob > maxProb) {
-                maxProb = prob;
-                maxIdx = i;
-            }
+        for (int i = 0; i < scores.length; i++) {
+            expScores[i] /= sum;
         }
-
-        return classNames[maxIdx] + " (" + String.format("%.1f", maxProb * 100) + "%)";
+        return expScores;
     }
 
+    /**
+     * Argmax helper.
+     */
+    private int argMax(float[] array) {
+        int maxIndex = 0;
+        float maxVal = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > maxVal) {
+                maxVal = array[i];
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
+    }
 }
